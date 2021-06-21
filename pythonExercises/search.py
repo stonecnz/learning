@@ -5,20 +5,22 @@ fname = input('Enter the file name: ')
 try:
     fhand = open(fname)
 except:
+    if fname == "na na boo boo":
+        print("NA NA BOO BOO TO YOU - You have been punk'd!")
+        exit()
     print('File cannot be opened:', fname)
     exit()
 
 # Init the running total and the count
-total = 0
-count = 0
+emails = []
 
-# Find the interesting parts, extract the floating point number, and add to total and count
+# Find the interesting lines, split into words, add the email address to a list
 for line in fhand:
-    if line.startswith('X-DSPAM-Confidence:'):
-        index = line.find(":")
-        interval = float(line[index+1:])
-        total = total + interval
-        count = count + 1
+    if line.startswith('From:'):
+        words = line.split()
+        emails.append(words[1])
 
 # print the output
-print('The average spam confidence was', total/count, 'in', fname)
+for email in emails:
+    print(email)
+print('There were ', len(emails), ' emails in', fname)
