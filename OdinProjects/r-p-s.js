@@ -1,8 +1,9 @@
 const prompt = require('prompt-sync')({sigint: true});
 
 // requests the users input - contains a fail safe in case the user is silly
-let correctInput = false;
+
 function playerInput() {
+    let correctInput = false;
     let userInput = '';
     while (!correctInput) {
         userInput = prompt('rock, paper, or scissors? ... ');
@@ -63,19 +64,31 @@ function playARound(playersMove, computersMove) {
     return outcome;
 }
 
-// a function that calls each individual input function, plays the game, and prints the results in human words
-function declareWinner() {
-    let comp = computerPlay();
-    let user = playerInput();
-    let result = playARound(user, comp);
-    if (result === 0) {
-        console.log("It was a draw!");
-    } else if (result === 1) {
-        console.log("You won!");
+// run the whole thing for 5 rounds and declare an overall winner
+function game() {
+    let computerTotal = 0;
+    let playerTotal = 0;
+    for (let i = 0; i<5; i++) {
+        let comp = computerPlay();
+        let user = playerInput();
+        console.log(user);
+        let result = playARound(user, comp);
+        if (result === 0) {
+            console.log("The first game was a draw!");
+        } else if (result === 1) {
+            playerTotal ++;
+            console.log("You won a game!");
+        } else {
+            console.log("You lost a game!");
+            computerTotal ++;
+        }
+    }       
+    if (playerTotal === computerTotal) {
+        console.log("All games ended in a draw...");
+    } else if (playerTotal > computerTotal) {
+        console.log("All games ended with you winning!");
     } else {
-        console.log("You lost!");
+        console.log("All games ended with the computer winning... sad-face!");
     }
 }
-
-// run the whole thing
-declareWinner();
+game();
