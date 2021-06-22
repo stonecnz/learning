@@ -1,3 +1,5 @@
+import string
+
 # Request the name of the file
 fname = input('Enter the file name: ')
 
@@ -9,12 +11,15 @@ except:
     exit()
 
 # init the vocab list
-vocab = []
+vocab = dict()
 
 # go through each line in the document
 for line in fhand:
 
-    # split each line into a list of words
+    # clean up words - get rid of punctuation or capitlisation and split into a list
+    line = line.rstrip()
+    line = line.translate(line.maketrans('', '', string.punctuation))
+    line = line.lower()
     words = line.split()
 
     # guardian check to make sure there are actually words in the list
@@ -23,26 +28,13 @@ for line in fhand:
     # go through each word in the list
     for word in words:
 
-        #remove capitalisation
-        lowerWord = word.lower()
+        # check that the word is in the vocab list or not and increment count, if not, then add.
+        vocab[word] = vocab.get(word, 0) + 1
 
-        # remove punctuation
-        if lowerWord.endswith("'s"):
-            cleanWord = lowerWord[:-2]
-        elif lowerWord.endswith('.'):
-            cleanWord = lowerWord[:-1]
-        elif lowerWord.endswith(','):
-            cleanWord = lowerWord[:-1]
-        else:    
-            cleanWord = lowerWord
+# set up a list for ordering the keys in the dictionary 
+lst = list(vocab.keys())
+lst.sort()
 
-        # check that the word is in the vocab list or not
-        if cleanWord not in vocab:
-
-            # if not in the vocab list, then add it
-            vocab.append(cleanWord)
-
-# sort the list
-vocab.sort()
-
-print(vocab)
+# for each of the ordered list, find the corresponding key in the dict and present the key and value
+for key in lst:
+    print(key, vocab[key])
