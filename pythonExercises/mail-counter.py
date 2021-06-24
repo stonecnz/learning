@@ -8,7 +8,7 @@ except:
     print('File cannot be opened:', fname)
     exit()
 
-# Init the running total and the count
+# Init the emails dict and the days array
 emails = dict()
 days = []
 

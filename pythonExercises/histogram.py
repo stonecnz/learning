@@ -22,7 +22,18 @@ for line in fhand:
         addy.append(words[1])
 
         for add in addy:
-            emails[add] = emails.get(add, 0) + 1
+            atpos = add.find('@')
+            domain = add[atpos+1:]
+            emails[domain] = emails.get(domain, 0) + 1
 
 for email in emails:
     print(email, ':', emails[email])
+
+maxNum = 0
+maxPerson = ""
+for email in emails:
+    if emails[email] > maxNum:
+        maxNum = emails[email]
+        maxPerson = email
+
+print(maxPerson, "has sent the most messages in this file:", maxNum)
