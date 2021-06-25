@@ -35,3 +35,7 @@ bordered.appendChild(h1);
 bordered.appendChild(p);
 container.appendChild(bordered);
 
+const btn = document.querySelector('.btn');
+btn.addEventListener('click', function (e) {
+    e.target.style.background = 'blue';
+})
