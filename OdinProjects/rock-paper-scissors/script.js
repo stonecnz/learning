@@ -1,17 +1,14 @@
 // button animation
 const btns = document.querySelectorAll('.btn');
 
-window.addEventListener('transitionend', function(e) {
-    const key = document.querySelector(`div[class = "${e.target.classList}"]`);
-    if (!key) return;
-    key.classList.remove("playing");
-})
-
-window.addEventListener('mousedown', function(e) {
-    const key = document.querySelector(`div[class = "${e.target.classList}"]`);
-    if (!key) return;
-    key.classList.add("playing");
-  });
+btns.forEach((btn) => {
+    btn.addEventListener('mousedown', function() {
+        btn.classList.add('playing');
+    });
+    btn.addEventListener('mouseup', function() {
+        btn.classList.remove('playing');
+    });
+});
 
 // requests the users input - contains a fail safe in case the user is silly
 
