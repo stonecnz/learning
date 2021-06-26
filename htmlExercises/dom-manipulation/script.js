@@ -35,7 +35,17 @@ bordered.appendChild(h1);
 bordered.appendChild(p);
 container.appendChild(bordered);
 
-const btn = document.querySelector('.btn');
-btn.addEventListener('click', function (e) {
-    e.target.style.background = 'blue';
-})
+const turnBlue = function() {
+
+}
+
+const btns = document.querySelectorAll('.btn');
+
+btns.forEach((btn) => {
+    btn.addEventListener('mousedown', function() {
+        btn.style.background = 'blue';
+    });
+    btn.addEventListener('mouseup', function() {
+        btn.style.background = 'red';
+    });
+});
