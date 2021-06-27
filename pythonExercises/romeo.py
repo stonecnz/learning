@@ -38,3 +38,4 @@ lst.sort()
 # for each of the ordered list, find the corresponding key in the dict and present the key and value
 for key in lst:
     print(key, vocab[key])
+
