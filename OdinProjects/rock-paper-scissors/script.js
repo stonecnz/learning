@@ -1,34 +1,30 @@
-// button animation
-const btns = document.querySelectorAll('.btn');
+let playersMove = '';
+let runningTotal = 0;
+let roundNum = 0;
 
-btns.forEach((btn) => {
+const btns = document.querySelectorAll('.btn'); // select the buttons
+const currentRound = document.querySelector('.current-round'); // selects the current round element
+
+btns.forEach((btn) => { // add functionality to each button
     btn.addEventListener('mousedown', function() {
-        btn.classList.add('playing');
+        btn.classList.add('playing'); // makes an animation when you select the button
+
+        playersMove = btn.id; // inputs the player's move
+        
+        roundNum += 1; // increments the round each time the player clicks a button
+        currentRound.innerHTML = roundNum; // displays the new round
     });
     btn.addEventListener('mouseup', function() {
         btn.classList.remove('playing');
     });
 });
 
-// requests the users input - contains a fail safe in case the user is silly
 
-function playerInput() {
-    let correctInput = false;
-    let userInput = '';
-    while (!correctInput) {
-        userInput = prompt('rock, paper, or scissors? ... ');
-        userInput = userInput.toLowerCase();
-        if (userInput === 'rock' || userInput === 'paper' || userInput === 'scissors') {
-            correctInput = true;
-        } else {
-            console.log('That was an incorrect input. Try again... ')
-        }
-    }
-    return userInput
-}
+
+
 
 // generates a random number between 1-3 - each represents a move by the computer
-function computerPlay() {
+function genCompMove() {
     let computerMove = '';
     randomNumber = Math.floor((Math.random() * 3) + 1);
     if (randomNumber === 1) {
@@ -38,7 +34,7 @@ function computerPlay() {
     } else {
         computerMove = 'scissors';
     }
-    return computerMove;
+    return computersMove;
 }
 
 // init the function to play a single round; take players input and computers input as params

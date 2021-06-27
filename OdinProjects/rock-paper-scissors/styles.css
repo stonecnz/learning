@@ -15,8 +15,9 @@ h1 {
 
 .container {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .btn-container {
@@ -37,10 +38,24 @@ h1 {
     color: white;
     background: rgba(0,0,0,0.4);
     text-shadow: 0 0 .5rem black;
-  }
+}
 
-  .playing {
+.playing {
     transform: scale(1.1);
     border-color: #ffc600;
     box-shadow: 0 0 1rem #ffc600;
-  }
+}
+
+.comp-move-container {
+    display: none;
+}
+
+.round-container {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.current-round {
+    font-size: 80px;
+    padding: 30px;
+}
