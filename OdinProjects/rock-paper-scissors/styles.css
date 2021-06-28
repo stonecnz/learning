@@ -5,12 +5,19 @@
 }
 
 body {
-    font-family: sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 h1 {
     text-align: center;
     padding: 30px;
+    font-size: 4rem;
+}
+
+.instruction-container {
+    width: 55vw;
+    text-align: center;
+    font-size: 1.5rem;
 }
 
 .container {
@@ -24,6 +31,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 30px;
 }
 
 .btn {
@@ -46,6 +54,10 @@ h1 {
     box-shadow: 0 0 1rem #ffc600;
 }
 
+.restart {
+    display: none;
+}
+
 .comp-move-container {
     display: none;
 }
@@ -58,4 +70,15 @@ h1 {
 .current-round {
     font-size: 80px;
     padding: 30px;
+    margin-bottom: 20px;
+}
+
+.game-container {
+    display: none;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.game {
+    font-size: 1.5rem;
 }
