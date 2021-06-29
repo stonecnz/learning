@@ -3,3 +3,25 @@
     margin: 0;
     box-sizing: initial;
 }
+
+.grid-container {
+    display: flex;
+    justify-content: space-around;
+    background-color: white;
+    margin: auto;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.column {
+    flex-basis: 100%;
+}
+
+.grid {
+    flex-basis: 10px;
+    border: 5px solid black;
+}
