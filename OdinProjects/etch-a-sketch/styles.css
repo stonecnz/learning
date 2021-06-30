@@ -1,27 +1,27 @@
 * {
     padding: 0;
     margin: 0;
-    box-sizing: initial;
+    box-sizing: border-box;
+}
+
+.inputs {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
 }
 
 .grid-container {
     display: flex;
-    justify-content: space-around;
-    background-color: white;
-    margin: auto;
-}
-
-.row {
-    display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
-}
-
-.column {
-    flex-basis: 100%;
+    justify-content: space-between;
+    margin: 30px auto;
+    border: 1px solid black;
 }
 
 .grid {
-    flex-basis: 10px;
-    border: 5px solid black;
+    position: relative;
+}
+
+.grid:hover {
+    background-color: blueviolet;
 }
