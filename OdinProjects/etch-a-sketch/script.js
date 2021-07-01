@@ -29,7 +29,9 @@ const addDrawAnimation = () => {
     let grids = document.querySelectorAll('.grid');
     grids.forEach((grid) => {
         grid.addEventListener('mouseover', function() {
-            grid.classList.toggle('active');
+            if (!grid.classList.contains(/^active*/)) {
+                grid.classList.toggle(`active${defaultColour}`);
+            }
         });
     });
 };
@@ -43,16 +45,19 @@ const clearGrid = () => {
 }
 
 submitButton.addEventListener('click', function() {
-    let grids = document.querySelectorAll('.grid');
-    grids.forEach((grid) => {
-        grid.classList.remove('active');
-    });
+    clearGrid();
+    createGrid();
+    addDrawAnimation();
 });
 
 invertButton.addEventListener('click', function() {
     let grids = document.querySelectorAll('.grid');
     grids.forEach((grid) => {
-        grid.classList.toggle('active');
+        if (grid.classList.length > 1) {
+            grid.className = 'grid';
+        } else {
+            grid.className =`grid active${defaultColour}`;
+        }
     });
 });
 
@@ -87,7 +92,6 @@ colours.forEach((colour) => {
         let sheet = document.styleSheets[0];
         let rules = sheet.cssRules || sheet.rules;
         rules[9].style.backgroundColor = defaultColour;
-        console.log(rules);
     });
 });
 

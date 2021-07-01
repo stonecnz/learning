@@ -16,8 +16,6 @@
     width: max-content;
     background-color: white;
     color: black;
-    border: 0.1em solid black;
-    border-radius: 0.5em;
     transition: all 0.2s;
     font-family: monospace;
 }
@@ -25,7 +23,6 @@
 .active-size {
     background-color: black;
     color: white;
-    border-color: black;
     border-radius: 0.5em;
 }
 
@@ -38,7 +35,6 @@
     padding: 20px;
     background-color: black;
     color: white;
-    border: 0.1em solid black;
     border-radius: 0.5em;
     transition: all 0.2s;
     font-family: monospace;
@@ -64,6 +60,18 @@
     position: relative;
 }
 
-.active {
+.activeBlue {
+    background-color: blue;
+}
+
+.activePurple {
     background-color: purple;
+}
+
+.activeRed {
+    background-color: red;
+}
+
+.activeYellow {
+    background-color: yellow;
 }
