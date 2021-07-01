@@ -4,24 +4,66 @@
     box-sizing: border-box;
 }
 
-.inputs {
-    position: absolute;
+.menu {
     display: flex;
-    flex-direction: column;
+    justify-content: space-around;
+    margin: 30px auto;
+}
+
+.selections {
+    display: flex;
+    justify-content: space-between;
+    width: max-content;
+    background-color: white;
+    color: black;
+    border: 0.1em solid black;
+    border-radius: 0.5em;
+    transition: all 0.2s;
+    font-family: monospace;
+}
+
+.active-size {
+    background-color: black;
+    color: white;
+    border-color: black;
+    border-radius: 0.5em;
+}
+
+.selection {
+    padding: 20px;
+    cursor: pointer;
+}
+
+.button {
+    padding: 20px;
+    background-color: black;
+    color: white;
+    border: 0.1em solid black;
+    border-radius: 0.5em;
+    transition: all 0.2s;
+    font-family: monospace;
+}
+
+.button:hover {
+    cursor: pointer;
+    color: black;
+    background-color: white;
 }
 
 .grid-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin: 30px auto;
-    border: 1px solid black;
+    margin: auto;
+    outline: 1px solid black;
+    width: 800px;
+    height: 800px;
 }
 
 .grid {
     position: relative;
 }
 
-.grid:hover {
-    background-color: blueviolet;
+.active {
+    background-color: purple;
 }
