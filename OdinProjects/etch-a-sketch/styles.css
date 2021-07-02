@@ -10,12 +10,18 @@
     margin: 30px auto;
 }
 
+.title {
+    font-family: monospace;
+    padding-top: 20px;
+    font-size: 30px;
+    text-decoration: underline;
+}
+
 h1 {
     text-align: center;
     margin: auto;
     padding-right: 10px;
     padding-left: 20px;
-
 }
 
 .selections {
@@ -48,6 +54,7 @@ h1 {
     border-radius: 0.5em;
     transition: all 0.2s;
     font-family: monospace;
+    font-weight: bold;
 }
 
 .button:hover {
