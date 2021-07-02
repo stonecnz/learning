@@ -10,10 +10,19 @@
     margin: 30px auto;
 }
 
+h1 {
+    text-align: center;
+    margin: auto;
+    padding-right: 10px;
+    padding-left: 20px;
+
+}
+
 .selections {
     display: flex;
     justify-content: space-between;
     width: max-content;
+    min-width: max-content;
     background-color: white;
     color: black;
     transition: all 0.2s;
@@ -27,6 +36,7 @@
 }
 
 .selection {
+    display: flex;
     padding: 20px;
     cursor: pointer;
 }
@@ -74,4 +84,31 @@
 
 .activeYellow {
     background-color: yellow;
+}
+
+@media (max-width: 1500px) {
+    .menu {
+        flex-direction: column;
+        width: 800px;
+    }
+}
+
+@media (max-width: 800px) {
+    .grid-container {
+        width: 400px;
+        height: 400px;
+    }
+    .menu {
+        width: 400px;
+    }
+    h1 {
+        font-size: 14px;
+    }
+    .button {
+        padding: 10px;
+    }
+    .selection {
+        padding: 5px;
+        font-size: 8px;
+    }
 }

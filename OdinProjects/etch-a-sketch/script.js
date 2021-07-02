@@ -29,12 +29,22 @@ const addDrawAnimation = () => {
     let grids = document.querySelectorAll('.grid');
     grids.forEach((grid) => {
         grid.addEventListener('mouseover', function() {
-            if (!grid.classList.contains(/^active*/)) {
-                grid.classList.toggle(`active${defaultColour}`);
+            if (defaultColour != 'Rainbow') {
+                grid.style.backgroundColor = defaultColour;
+            } else {
+                grid.style.backgroundColor = genRandColour();
             }
+            
         });
     });
 };
+
+const genRandColour = () => {
+    let randRGB = () => {
+        return Math.floor(Math.random()*256);
+    }
+    return `rgb(${randRGB()}, ${randRGB()}, ${randRGB()})`; 
+}
 
 addDrawAnimation();
 
@@ -48,17 +58,6 @@ submitButton.addEventListener('click', function() {
     clearGrid();
     createGrid();
     addDrawAnimation();
-});
-
-invertButton.addEventListener('click', function() {
-    let grids = document.querySelectorAll('.grid');
-    grids.forEach((grid) => {
-        if (grid.classList.length > 1) {
-            grid.className = 'grid';
-        } else {
-            grid.className =`grid active${defaultColour}`;
-        }
-    });
 });
 
 const sizes = document.querySelectorAll('.size');
@@ -89,9 +88,6 @@ colours.forEach((colour) => {
         });
         colour.classList.add('active-size');
         defaultColour = colour.innerHTML;
-        let sheet = document.styleSheets[0];
-        let rules = sheet.cssRules || sheet.rules;
-        rules[9].style.backgroundColor = defaultColour;
     });
 });
 
