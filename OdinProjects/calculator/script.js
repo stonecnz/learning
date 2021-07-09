@@ -9,6 +9,8 @@ const preDisplay = document.querySelector('.previousCal');
 const numbers = document.querySelectorAll('.number');
 const operators = document.querySelectorAll('.operator');
 const equals = document.querySelector('.equals');
+const clear = document.querySelector('.clear');
+const backspace = document.querySelector('.backspace');
 
 const clearData = () => {
     ans = null;
@@ -74,31 +76,59 @@ numbers.forEach(number => {
     number.addEventListener('click', function() {
         if (numBucket === null) {
             numBucket = Number(number.innerHTML);
+            ansDisplay.innerHTML += numBucket;
         } else {
             numBucket = (numBucket * 10) + Number(number.innerHTML); 
+            ansDisplay.innerHTML += number.innerHTML;
         }
-        console.log(numBucket);
     })
 });
-
 
 
 operators.forEach(element => {
     element.addEventListener('click', function() { // when operated clicked
-        console.log(`a = ${a} b = ${b} operator = ${operator} ans = ${ans}`);
         if (numBucket != null && a === null) { // if numBucket not empty, and a empty, then a = numBucket
             a = numBucket;
-            numBucket = null;
-            operator = element.innerHTML;
-        } else if (numBucket != null && a != null) { 
-            b = numBucket;
-            numBucket = null;
-            ans = calculate(a, b, operator);
-            a = ans;
-            operator = element.innerHTML;
+            numBucket = null; //clear the numBucket so that we can add new stuff to it
+            operator = element.innerHTML; // store the operator
+            if (ansDisplay.innerHTML != "") {
+                ansDisplay.innerHTML += ` ${operator} `;
+            }
+        } else if (numBucket != null && a != null) {  // if numBucket isnt empty AND a isnt empty, then 
+            b = numBucket; // store numBucket in b
+            numBucket = null; // wipe numBucket
+            ans = calculate(a, b, operator); // calculate the answer and display it
+            a = ans; // store the ans in a for the next calculation (in case users keep selecting operators to do calculations)
+            operator = element.innerHTML; // store the new operator
         }
     })
 });
+
+clear.addEventListener('click', function() {
+    clearData();
+    ansDisplay.innerHTML = "";
+    preDisplay.innerHTML = "";
+    numBucket = null;
+});
+
+backspace.addEventListener('click', function() {
+    if (numBucket != null) {
+        numBucket = Math.floor(numBucket / 10);
+    }
+});
+
+equals.addEventListener('click', function() {
+    if (numBucket != null && operator != null) {
+        b = numBucket;
+        numBucket = null;
+        ans = calculate(a, b, operator);
+        a = ans;
+    } else if (numBucket === null && operator != null) {
+        b = a;
+        ans = calculate(a, b, operator);
+        a = ans;
+    }
+})
 
 
 
