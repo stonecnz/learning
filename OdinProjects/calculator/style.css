@@ -4,3 +4,34 @@
     box-sizing: border-box;
 }
 
+.container {
+    margin: 40px;
+}
+.screen {
+    text-align: end;
+    width: 360px;
+    margin: 0.5rem auto;
+    min-height: 40px;
+}
+
+.buttonsContainer {
+    text-align: center;
+    width: 360px;
+    margin: auto;
+}
+
+.button {
+    display: inline-block;
+    margin-top: 0.3rem;
+    padding: 0.3rem;
+    min-width: 30px;
+    min-height: 30px;
+    border: 1px solid grey;
+    border-radius: 15%;
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: black;
+    color: white;
+}

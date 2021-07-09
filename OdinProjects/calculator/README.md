@@ -13,7 +13,7 @@ Use cases:
 - Pressing the equals button before entering two numbers or an operator should not evaluate; it should return an error.
 - pressing 'clear' should wipe out any existing data.
 - dividing by 0 should not evaluate; it should return an error.
-- a decimal number should be possible; but users should be able to type more than one decimal point. 
+- a decimal number should be possible; but users shouldn't be able to type more than one decimal point. 
 - users should be able to backspace an input if they wish
 - users should be able to input via either mouse (clicking) or keyboard
 - while doing a series of calculations, the user should see the previous calculation
