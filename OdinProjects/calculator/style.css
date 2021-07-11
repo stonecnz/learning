@@ -35,3 +35,9 @@
     background-color: black;
     color: white;
 }
+
+.active {
+    cursor: pointer;
+    background-color: black;
+    color: white;
+}
