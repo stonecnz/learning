@@ -2,7 +2,7 @@ let ans = null;
 let a = null;
 let b = null;
 let operator = null;
-let numBucket = null;
+let numBucket = 0;
 
 
 const ansDisplay = document.querySelector('.ans');
@@ -12,13 +12,20 @@ const operators = document.querySelectorAll('.operator');
 const equals = document.querySelector('.equals');
 const clear = document.querySelector('.clear');
 const backspace = document.querySelector('.backspace');
+const negative = document.querySelector('.negative');
+const percent = document.querySelector('.percent');
 
 const clearData = () => {
     ans = null;
     a = null;
     b = null;
     operator = null;
+    preDisplay.innerHTML = "&nbsp;";
+    numBucket = 0;
+    ansDisplay.innerHTML = numBucket;
 };
+
+ansDisplay.innerHTML = numBucket;
 
 
 // calculate the answer when certain operators are selected along with two numbers
@@ -73,12 +80,18 @@ const returnPreviousCal = (a, b, operator) => {
 // init a bucket to add the current number into. When a number is selected calculate what the current number is with the select in the ones column
 numbers.forEach(number => {
     number.addEventListener('click', function() {
-        if (numBucket === null) {
+        if (numBucket === null || numBucket === 0) {
             numBucket = Number(number.innerHTML);
-            ansDisplay.innerHTML = number.innerHTML;
+            ansDisplay.innerHTML = numBucket;
+        } else if (numBucket === "-0") {
+            numBucket = -1 * Number(number.innerHTML); 
+            ansDisplay.innerHTML = numBucket;
+        } else if (numBucket < 0) {
+            numBucket = (numBucket * 10) - Number(number.innerHTML); 
+            ansDisplay.innerHTML = numBucket;
         } else {
             numBucket = (numBucket * 10) + Number(number.innerHTML); 
-            ansDisplay.innerHTML += number.innerHTML;
+            ansDisplay.innerHTML = numBucket;
         }
     })
 });
@@ -104,14 +117,12 @@ operators.forEach(element => {
 
 clear.addEventListener('click', function() {
     clearData();
-    ansDisplay.innerHTML = "";
-    preDisplay.innerHTML = "";
-    numBucket = null;
 });
 
 backspace.addEventListener('click', function() {
-    if (numBucket != null) {
+    if (numBucket != null || numBucket != 0) {
         numBucket = Math.floor(numBucket / 10);
+        ansDisplay.innerHTML = numBucket;
     }
 });
 
@@ -127,6 +138,28 @@ equals.addEventListener('click', function() {
         ans = calculate(a, b, operator);
         a = ans;
         ans = null;
+    }
+})
+
+negative.addEventListener('click', function() {
+    //when selected turn the current numBucket into a negative number
+    if (numBucket != null && numBucket != 0) {
+        numBucket = numBucket * -1
+        ansDisplay.innerHTML = numBucket;
+    } else if (numBucket === 0) {
+        numBucket = "-0";
+        ansDisplay.innerHTML = numBucket;
+    }
+})
+
+percent.addEventListener('click', function() {
+    if (numBucket != null || numBucket != 0) {
+        numBucket = numBucket / 100;
+        ansDisplay.innerHTML = numBucket;
+    }
+    if (numBucket != null && (operator === "+" || operator === "-")) {
+        numBucket = a * numBucket;
+        ansDisplay.innerHTML = numBucket;
     }
 })
 
