@@ -2,7 +2,7 @@ let ans = null;
 let a = null;
 let b = null;
 let operator = null;
-let numBucket = 0;
+let numBucket = '0';
 
 
 const ansDisplay = document.querySelector('.ans');
@@ -14,6 +14,7 @@ const clear = document.querySelector('.clear');
 const backspace = document.querySelector('.backspace');
 const negative = document.querySelector('.negative');
 const percent = document.querySelector('.percent');
+const decimal = document.querySelector('.decimal');
 
 const clearData = () => {
     ans = null;
@@ -95,6 +96,9 @@ numbers.forEach(number => {
         }
     })
 });
+
+// decimal point needs to be added to the bucket somehow?
+// convert the numBucket into a string for the mean time because it is easier to add and change with a string and then convert it to a number only when needed
 
 operators.forEach(element => {
     element.addEventListener('click', function() { // when operated clicked

@@ -7,11 +7,17 @@
 .container {
     margin: 40px;
 }
+
+@font-face {
+    font-family: 'calculator';
+    src: url(./assets/Digital7-1e1Z.ttf);
+}
 .screen {
     text-align: end;
     width: 360px;
     margin: 0.5rem auto;
     min-height: 40px;
+    font-family: 'calculator';
 }
 
 .buttonsContainer {
