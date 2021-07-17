@@ -18,14 +18,22 @@ const negative = document.querySelector('.negative');
 const percent = document.querySelector('.percent');
 const decimal = document.querySelector('.decimal');
 
+const blink = () => {
+    ansDisplay.style.opacity = 0;
+    setTimeout(function() {ansDisplay.style.opacity = 1}, 30);
+}
+
 // a function that updates the displays to the current values
 const display = () => {
     preDisplay.innerHTML = preCal;
     if (ans != null) {
         ansDisplay.innerHTML = ans; // make sure that you null ans after storing in 'a'
+    } else if (numBucket == '') {
+        ansDisplay.innerHTML = '0';
     } else {
         ansDisplay.innerHTML = numBucket;
     }
+    blink();
 };
 
 // clearing the data
@@ -78,7 +86,6 @@ const calculate = (a, b, operator) => {
             ans = divide(a, b);
     }
     preCal = `${a} ${operator} ${b} =`;
-    display();
     a = null;
     b = null;
     operator = null;
@@ -86,19 +93,15 @@ const calculate = (a, b, operator) => {
 }
 
 const updateNum = (num) => {
-    if (operator != null) {
-        numBucket = '0';
-    }
-
     switch (numBucket) {
         case '0':
-            numBucket = num.innerHTML;
+            numBucket = num;
             break;
         case '-0':
-            numBucket = '-' + num.innerHTML;
+            numBucket = '-' + num;
             break;
         default:
-            numBucket = numBucket + num.innerHTML;
+            numBucket = numBucket + num;
             break;
     }
     display();
@@ -106,33 +109,41 @@ const updateNum = (num) => {
 
 numbers.forEach(number => {
     number.addEventListener('click', function() {
-        updateNum(number);
+        updateNum(number.innerHTML);
     });
 });
 
-// decimal point needs to be added to the bucket somehow?
-// convert the numBucket into a string for the mean time because it is easier to add and change with a string and then convert it to a number only when needed
-
 const updateOperator = (op) => {
-    if (operator != null && operator != op.innerHTML) {
-        operator = op.innerHTML;
-    } else if (numBucket != '' && a == null) { // if numBucket not empty, and a empty, then a = numBucket
+    if (operator != null && operator != op) {
+        blink();
+        operator = op;
+    } else if (numBucket != '' && operator == null) {
+        blink();
+        operator = op;
         a = Number(numBucket);
-        operator = op.innerHTML; // store the operator
+        numBucket = '';
+    } else if (numBucket != '' && a == null) { // if numBucket not empty, and a empty, then a = numBucket
+        blink();
+        a = Number(numBucket);
+        operator = op; // store the operator
+        numBucket = '';
     } else if (numBucket != '' && a != null) {  // if numBucket isnt empty AND a isnt empty, then 
         b = Number(numBucket); // store numBucket in b
+        numBucket = '';
         ans = calculate(a, b, operator); // calculate the answer and display it
-        a = ans; // store the ans in a for the next calculation (in case users keep selecting operators to do calculations)
-        operator = op.innerHTML; // store the new operator
+        a = ans; 
+        display();
         ans = null;
+        operator = op; // store the new operator
     } else if (numBucket == '' && a != null) {
-        operator = op.innerHTML;
+        blink();
+        operator = op;
     }
 }
 
 operators.forEach(element => {
     element.addEventListener('click', function() {
-        updateOperator(element);
+        updateOperator(element.innerHTML);
     });
 });
 
@@ -150,7 +161,7 @@ backspace.addEventListener('click', function() {
     display();
 });
 
-equals.addEventListener('click', function() {
+const calcEquals = () => {
     if (numBucket == "80085" && operator == null) {
         numBucket = "BOOBIES!!!";
         display();
@@ -158,26 +169,37 @@ equals.addEventListener('click', function() {
         b = Number(numBucket);
         ans = calculate(a, b, operator);
         a = ans;
-        ans = null;
     } else if (numBucket == '' && operator != null) {
         b = a;
         ans = calculate(a, b, operator);
         a = ans;
-        ans = null;
     }
-})
+    display();
+    numBucket = ''
+    ans = null;
+    b = null;
+    operator = null;
+}
 
-negative.addEventListener('click', function() {
-    //when selected turn the current numBucket into a negative number
+equals.addEventListener('click', function() {
+    calcEquals();
+});
+
+const turnNegative = () => {
     if (numBucket[0] == '-') {
         numBucket = numBucket.slice(1);
     } else {
         numBucket = '-' + numBucket;
     }
     display();
+}
+
+negative.addEventListener('click', function() {
+    //when selected turn the current numBucket into a negative number
+    turnNegative();
 })
 
-percent.addEventListener('click', function() {
+const turnPercent = () => {
     if (numBucket != '') {
         numBucket = Number(numBucket) / 100;
     }
@@ -186,40 +208,30 @@ percent.addEventListener('click', function() {
     }
     String(numBucket);
     display();
+}
+
+percent.addEventListener('click', function() {
+    turnPercent();
 })
 
 const handleKeyPress = function(e) {
-    const numKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-    const opKeys = ['+', '-', '*', '/'];
-    if (e.key in numKeys)
-    switch (numBucket) {
-        case '0':
-            numBucket = e.key;
-            break;
-        case '-0':
-            numBucket = '-' + e.key;
-            break;
-        default:
-            numBucket = numBucket + e.key;
-            break;
-    } else if (e.key in opKeys) {
-        console.log(e.key);
-        if (operator != null && operator != e.key) {
-            operator = e.key;
-        } else if (numBucket != '' && a == null) { // if numBucket not empty, and a empty, then a = numBucket
-            a = Number(numBucket);
-            operator = e.key; // store the operator
-        } else if (numBucket != '' && a != null) {  // if numBucket isnt empty AND a isnt empty, then 
-            b = Number(numBucket); // store numBucket in b
-            ans = calculate(a, b, operator); // calculate the answer and display it
-            a = ans; // store the ans in a for the next calculation (in case users keep selecting operators to do calculations)
-            operator = e.key; // store the new operator
-            ans = null;
-        } else if (numBucket == '' && a != null) {
-            operator = e.key;
-        }
-    };
-    display();
+    console.log(e.charCode);
+    const numKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '='];
+    if (e.key in numKeys) {
+        updateNum(e.key);
+    } else if (e.charCode == 61) {
+        calcEquals();
+    } else if (e.charCode == 43 || e.charCode == 45) {
+        updateOperator(e.key);
+    } else if (e.charCode == 42) {
+        updateOperator('×');
+    } else if (e.charCode == 47) {
+        updateOperator('÷');
+    } else if (e.charCode == 95) {
+        turnNegative();
+    } else if (e.charCode == 37) {
+        turnPercent();
+    }
 }
 
 window.addEventListener('keypress', handleKeyPress, false);
