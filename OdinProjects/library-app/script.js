@@ -12,31 +12,20 @@ const hasReadInput = document.querySelector('.hasRead-input');
 function Book(title, author, pages, hasRead) {
     this.title = title
     this.author = author
-    if (typeof pages != Number) {
-        this.pages = 0;
-    } else {
-        this.pages = pages;
-    }
+    this.pages = pages;
     this.hasRead = hasRead
-    // this.info = function() {
-    //     return `${this.title} by ${this.author}, ${this.pages} pages, ${this.hasRead}.`
-    // }
-}
-
-function checkBook(book) {
-    return newBook.title == book.title; 
 }
 
 function addBookToLibrary(newBook) {
     myLibrary.push(newBook);
 };
 
-let cat = new Book('Hallow', "me", 54, "False");
+let cat = new Book('Hallow', "me", 54, false);
 addBookToLibrary(cat);
-let potato = new Book('Hallow', "Webb, Catherine", 54, "False");
+let potato = new Book('Hallow', "Webb, Catherine", 53, false);
 addBookToLibrary(potato);
 
-myLibrary.forEach(book => {
+const addBooksToPage = (book) => {
     let bookEntry = document.createElement('div');
     bookContainer.appendChild(bookEntry);
     bookEntry.classList.add('bookEntry');
@@ -45,9 +34,10 @@ myLibrary.forEach(book => {
         bookProp.innerHTML = book[key];
         bookEntry.appendChild(bookProp);
         bookProp.classList.add('bookProp');
-    }) 
+    })
+};
 
-})
+myLibrary.forEach(book => addBooksToPage(book));
 
 addBookButton.addEventListener('click', function() {
     if (formPopup.style.display == "none") {
@@ -59,18 +49,9 @@ addBookButton.addEventListener('click', function() {
 })
 
 newBookSubmitButton.addEventListener('click', function() {
-    console.log(titleInput.value, authorInput.value, pagesInput.value, hasReadInput.value);
-    let x = new Book(titleInput.value, authorInput.value, pagesInput.value, hasReadInput.value);
+    let x = new Book(titleInput.value, authorInput.value, pagesInput.value, hasReadInput.checked);
     addBookToLibrary(x);
-    console.log(myLibrary);
-    let bookEntry = document.createElement('div');
-    bookContainer.appendChild(bookEntry);
-    bookEntry.classList.add('bookEntry');
-    let lastBook = myLibrary.length;
-    Object.keys(myLibrary[lastBook - 1]).forEach(key => {
-        let bookProp = document.createElement('p');
-        bookProp.innerHTML = myLibrary[lastBook - 1][key];
-        bookEntry.appendChild(bookProp);
-        bookProp.classList.add('bookProp');
-    }) 
+    addBooksToPage(x);
 })
+
+let myTitle = document.querySelector("#myTitle");
