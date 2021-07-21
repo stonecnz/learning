@@ -15,7 +15,7 @@ main {
 
 .add-book-button {
     background: none;
-    border: none;
+    border-radius: 5%;
     padding: 15px;
     transition: background .5s, color .5s ease;
 }
@@ -25,6 +25,24 @@ main {
     color: white;
     border-radius: 5%;
     cursor: pointer;
+}
+
+.form-popup {
+    display: none;
+    border: 3px solid #f1f1f1;
+}
+
+.form-container input[type=text] {
+    padding: 10px;
+    background-color: white;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+}
+
+.form-container input[type=text]:focus {
+    background-color: #ddd;
+    outline: none;
 }
 
 .bookContainer {

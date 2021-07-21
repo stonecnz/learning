@@ -12,6 +12,23 @@
     </header>
     <main>
         <button class="add-book-button">Add Book</button>
+        <div class="form-popup">
+            <div class="form-container">
+            <label for="title"><b>Title</b></label>
+            <input type="text" placeholder="Book Title" name="title" class="title-input" required>
+
+            <label for="author"><b>Author</b></label>
+            <input type="text" placeholder="Author Name: 'Smith, Will'" name="author" class="author-input" required>
+
+            <label for="pages"><b>Pages</b></label>
+            <input type="number" placeholder="0" name="pages" class="pages-input" required>
+
+            <label for="hasRead"><b>Read?</b></label>
+            <input type="checkbox" class="hasRead-input">
+
+            <button type="submit" class="submit-btn">Add</button>
+            </div>
+        </div>
         <div class="bookContainer">
             <div class="bookEntry top">
                 <p class="bookProp">Title</p>
