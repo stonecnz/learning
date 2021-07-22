@@ -1,3 +1,5 @@
+import re
+
 # Request the name of the file
 fname = input('Enter the file name: ')
 
@@ -14,17 +16,11 @@ hours = []
 
 # Find the interesting lines, split into words, add the email address to a list
 for line in fhand:
-    if line.startswith('From'):
-        words = line.split()
-        
-        if len(words) < 3: continue # remove the lines that don't contain times
-
-        times = words[5] # create a variable with the time data
-        time = times.split(':') # split the time data into a list of three elements
-
-        hours.append(time[0]) # append the hour data into the hours list
-
-        for hour in hours: # for each of the hours in the hours data add to the emails dict with a count
+    line = line.rstrip()
+    x = re.findall('^From .* ([0-9][0-9]):', line)
+    if len(x) > 0:
+        hours.append(x)
+        for hour in hours:
             emails[hour] = emails.get(hour, 0) + 1
 
 # Turn the dict into a list of tuples and sort by count(hour)
