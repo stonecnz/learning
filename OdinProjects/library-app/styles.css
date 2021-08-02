@@ -5,7 +5,8 @@
 }
 
 header {
-    margin: 5%;
+    margin: 5% auto;
+    width: 1400px;
 }
 
 main {
@@ -18,6 +19,7 @@ main {
     border-radius: 5%;
     padding: 15px;
     transition: background .5s, color .5s ease;
+    margin-bottom: 20px;
 }
 
 .add-book-button:hover {
@@ -67,4 +69,13 @@ main {
 .bookProp {
     width: 20%;
     text-align: left;
+}
+
+.deleteBook {
+    width: 20px;
+    height: 20px;
+}
+
+.deleteBook:hover {
+    cursor: pointer;
 }

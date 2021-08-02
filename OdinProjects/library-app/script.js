@@ -25,20 +25,6 @@ addBookToLibrary(cat);
 let potato = new Book('Hallow', "Webb, Catherine", 53, false);
 addBookToLibrary(potato);
 
-const addBooksToPage = (book) => {
-    let bookEntry = document.createElement('div');
-    bookContainer.appendChild(bookEntry);
-    bookEntry.classList.add('bookEntry');
-    Object.keys(book).forEach(key => {
-        let bookProp = document.createElement('p');
-        bookProp.innerHTML = book[key];
-        bookEntry.appendChild(bookProp);
-        bookProp.classList.add('bookProp');
-    })
-};
-
-myLibrary.forEach(book => addBooksToPage(book));
-
 addBookButton.addEventListener('click', function() {
     if (formPopup.style.display == "none") {
         formPopup.style.display = "block";
@@ -48,10 +34,37 @@ addBookButton.addEventListener('click', function() {
     
 })
 
+function clearInput() {
+    titleInput.value = "";
+    authorInput.value = "";
+    pagesInput.value = "";
+    hasReadInput.value= false;
+}
+
 newBookSubmitButton.addEventListener('click', function() {
     let x = new Book(titleInput.value, authorInput.value, pagesInput.value, hasReadInput.checked);
     addBookToLibrary(x);
-    addBooksToPage(x);
+    render();
 })
 
-let myTitle = document.querySelector("#myTitle");
+function render() {
+    bookContainer.innerHTML = `            <tr class="bookEntry top">
+    <th class="bookProp">Title</th>
+    <th class="bookProp">Author</th>
+    <th class="bookProp">Pages</th>
+    <th class="bookProp">Read?</>
+</tr>`;
+    myLibrary.forEach((book) => {
+        let htmlBook = `
+        <tr class="bookEntry">
+            <td class="bookProp">${book.title}</td>
+            <td class="bookProp">${book.author}</td>
+            <td class="bookProp">${book.pages}</td>
+            <td class="bookProp">${book.hasRead}</td>
+        </tr>
+        `;
+        bookContainer.insertAdjacentHTML('beforeend', htmlBook);
+    })
+}
+
+render();
