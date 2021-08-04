@@ -47,6 +47,18 @@ newBookSubmitButton.addEventListener('click', function() {
     render();
 })
 
+bookContainer.addEventListener('click', function(e) {
+    if (e.target.innerHTML == 'Delete') {
+        let entry = e.target.parentElement.parentElement;
+        let title = entry.children[0].innerHTML;
+        let index = myLibrary.findIndex((object) => object.title == title);
+        if (index > -1) {
+            myLibrary.splice(index, 1);
+            } 
+        render();
+    }
+})
+
 function render() {
     bookContainer.innerHTML = `            <tr class="bookEntry top">
     <th class="bookProp">Title</th>
@@ -61,6 +73,7 @@ function render() {
             <td class="bookProp">${book.author}</td>
             <td class="bookProp">${book.pages}</td>
             <td class="bookProp">${book.hasRead}</td>
+            <td class="right"><button>Delete</button></td>
         </tr>
         `;
         bookContainer.insertAdjacentHTML('beforeend', htmlBook);
