@@ -8,36 +8,40 @@
 </head>
 <body>
     <header>
-        <h1 id="myTitle">My Library App</h1>
+        <h1>Library</h1>
     </header>
     <main>
-        <button class="add-book-button">Add Book</button>
-        <div class="form-popup">
-            <div class="form-container">
-            <label for="title"><b>Title</b></label>
-            <input type="text" placeholder="Book Title" name="title" class="title-input" required>
-
-            <label for="author"><b>Author</b></label>
-            <input type="text" placeholder="Author Name: 'Smith, Will'" name="author" class="author-input" required>
-
-            <label for="pages"><b>Pages</b></label>
-            <input type="number" placeholder="0" name="pages" class="pages-input" required>
-
-            <label for="hasRead"><b>Read?</b></label>
-            <input type="checkbox" name="hasRead" class="hasRead-input" value="true">
-
-            <button type="submit" class="submit-btn">Add</button>
+        <form class="new-book-form">
+            <div class="input">
+                <label class="input-item" for="book-title">Title</label>
+                <input class="input-item" type="text" id="book-title" name="book-title">
             </div>
+            <div class="input">
+                <label class="input-item" for="book-author">Author</label>
+                <input class="input-item" type="text" id="book-author" name="book-author">
+            </div>
+            <div class="input">
+                <label class="input-item" for="book-pages">Pages</label>
+                <input class="input-item" type="number" id="book-pages" name="book-pages">
+            </div>
+            <div class="input">
+                <label class="input-item" for="book-read">Read?</label>
+                <input class="input-item" type="checkbox" name="book-read" id="book-read">
+            </div>
+        </form>
+        <p id="new-book-submit">Add Book</p>
+        <div class="library">
+            <table class="library-table">
+                <tr class="header-row">
+                    <th class="title header-row">Title</th>
+                    <th class="author header-row">Author</th>
+                    <th class="pages header-row">Pages</th>
+                    <th class="read header-row">Read</th>
+                    <th class="header-row"></th>
+                </tr>
+            </table>
         </div>
-        <table class="bookContainer">
-            <tr class="bookEntry top">
-                <th class="bookProp">Title</th>
-                <th class="bookProp">Author</th>
-                <th class="bookProp">Pages</th>
-                <th class="bookProp">Read?</th>
-                <th class="bookProp"></th>
-            </tr>
-        </table>
+
     </main>
     <script src="script.js"></script>
 </body>

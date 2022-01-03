@@ -1,83 +1,152 @@
-let myLibrary = [];
+// function setCookie(name,value,exp_days) {
+//     let d = new Date();
+//     d.setTime(d.getTime() + (exp_days*24*60*60*1000));
+//     let expires = "expires=" + d.toGMTString();
+//     document.cookie = name + "=" + value + ";" + expires;
+// }
 
-const bookContainer = document.querySelector('.bookContainer');
-const addBookButton = document.querySelector('.add-book-button'); 
-const formPopup = document.querySelector('.form-popup');
-const newBookSubmitButton = document.querySelector('.submit-btn');
-const titleInput = document.querySelector('.title-input');
-const authorInput = document.querySelector('.author-input');
-const pagesInput = document.querySelector('.pages-input');
-const hasReadInput = document.querySelector('.hasRead-input');
+// function getCookie(name) {
+//     let cname = name + "=";
+//     let decodedCookie = decodeURIComponent(document.cookie);
+//     let ca = decodedCookie.split(';');
+//     for(let i = 0; i < ca.length; i++){
+//         let c = ca[i];
+//         while(c.charAt(0) == ' '){
+//             c = c.substring(1);
+//         }
+//         if(c.indexOf(cname) == 0){
+//             return c.substring(cname.length, c.length);
+//         }
+//     }
+//     return "";
+// }
+// setCookie("myLibrary", "[{title: 'what the dog doing?', author: 'me', pages: 10, read: false}]", 5);
+// let poop = getCookie("myLibrary");
+// console.log(poop);
 
-function Book(title, author, pages, hasRead) {
+let myLibrary = [
+    {
+        title: "What the dog doing?",
+        author: "Caleb Stone",
+        pages: 1000000,
+        read: false
+    },
+    {
+        title: "The Cat in the Hat",
+        author: "Katie Stamm",
+        pages: 3,
+        read: true
+    }
+];
+
+// the object constructor creating the book object from input
+function Book(title, author, pages = 0, read = false) {
     this.title = title
     this.author = author
-    this.pages = pages;
-    this.hasRead = hasRead
+    this.pages = pages
+    this.read = read
 }
 
+// adding a prototype function so that the info can be returned
+Book.prototype.info = function() {
+    return `${this.title} by ${this.author}, ${this.pages} pages, read: ${this.read}`;
+}
+
+// function to add objects to array
 function addBookToLibrary(newBook) {
     myLibrary.push(newBook);
-};
+}
 
-let cat = new Book('Hallow', "me", 54, false);
-addBookToLibrary(cat);
-let potato = new Book('Hallow', "Webb, Catherine", 53, false);
-addBookToLibrary(potato);
+const createBook = (item) => {
+    let cell = document.createElement("td");
+    let text = document.createTextNode(item);
+    cell.appendChild(text);
+    cell.classList = "table-row";
 
-addBookButton.addEventListener('click', function() {
-    if (formPopup.style.display == "none") {
-        formPopup.style.display = "block";
+    if (item == "Delete" || item == false || item == true) {
+        cell.classList = "table-row delete-btn";
+    }
+    return cell;
+}
+
+const deleteBook = (index) => {
+    myLibrary.splice(index, 1);
+}
+
+const changeStatus = (index) => {
+    if (myLibrary[index].read == false) {
+        myLibrary[index].read = true;
     } else {
-        formPopup.style.display = "none";
+        myLibrary[index].read = false;
     }
+}
+
+const libraryTable = document.querySelector('.library-table');
+
+libraryTable.addEventListener("click", (e) => {
+    if (e.target.innerText == "Delete") {
+        let index = e.target.parentNode.dataset.index;
+        deleteBook(index);
+        displayMyLibrary();
+    }
+
+    if (e.target.innerHTML == "true" || e.target.innerHTML == "false") {
+        let index = e.target.parentNode.dataset.index;
+        changeStatus(index);
+        displayMyLibrary();
+    }
+});
+
+function displayMyLibrary() {
+    let index = 0;
     
-})
+    let headerRow = document.querySelector(".header-row");
+    libraryTable.innerHTML = "";
+    libraryTable.appendChild(headerRow);
 
-function clearInput() {
-    titleInput.value = "";
-    authorInput.value = "";
-    pagesInput.value = "";
-    hasReadInput.value= false;
+    myLibrary.forEach(book => {
+        //Add each book
+        let tableRow = document.createElement('tr');
+        tableRow.setAttribute("data-index", index);
+
+        //Add each value to the row
+        tableRow.appendChild(createBook(book.title));
+        tableRow.appendChild(createBook(book.author));
+        tableRow.appendChild(createBook(book.pages));
+        tableRow.appendChild(createBook(book.read));
+        tableRow.appendChild(createBook("Delete"));
+        
+        // add the rows to the table
+        libraryTable.appendChild(tableRow);
+        index ++;
+    });
 }
 
-newBookSubmitButton.addEventListener('click', function() {
-    let x = new Book(titleInput.value, authorInput.value, pagesInput.value, hasReadInput.checked);
-    addBookToLibrary(x);
-    render();
-})
 
-bookContainer.addEventListener('click', function(e) {
-    if (e.target.innerHTML == 'Delete') {
-        let entry = e.target.parentElement.parentElement;
-        let title = entry.children[0].innerHTML;
-        let index = myLibrary.findIndex((object) => object.title == title);
-        if (index > -1) {
-            myLibrary.splice(index, 1);
-            } 
-        render();
+
+const newBookBtn = document.querySelector("#new-book-submit");
+
+newBookBtn.addEventListener("click", () => {
+    let newTitle = document.getElementById("book-title");
+    let newAuthor = document.getElementById("book-author");
+    let newPages = document.getElementById("book-pages");
+    let newRead = document.getElementById("book-read");
+
+    if (newTitle.value && newAuthor.value && newPages.value) {
+        let newBook = new Book(newTitle.value, newAuthor.value, newPages.value, newRead.checked);
+        addBookToLibrary(newBook);
+
+        newTitle.value = "";
+        newAuthor.value = "";
+        newPages.value = "";
+        newRead.checked = false;
+    } else {
+        alert("Bitch, add the rest of the necessary values!")
     }
-})
 
-function render() {
-    bookContainer.innerHTML = `            <tr class="bookEntry top">
-    <th class="bookProp">Title</th>
-    <th class="bookProp">Author</th>
-    <th class="bookProp">Pages</th>
-    <th class="bookProp">Read?</>
-</tr>`;
-    myLibrary.forEach((book) => {
-        let htmlBook = `
-        <tr class="bookEntry">
-            <td class="bookProp">${book.title}</td>
-            <td class="bookProp">${book.author}</td>
-            <td class="bookProp">${book.pages}</td>
-            <td class="bookProp">${book.hasRead}</td>
-            <td class="right"><button>Delete</button></td>
-        </tr>
-        `;
-        bookContainer.insertAdjacentHTML('beforeend', htmlBook);
-    })
-}
+    displayMyLibrary();
+});
 
-render();
+displayMyLibrary();
+
+
