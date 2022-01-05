@@ -1,0 +1,14 @@
+.game-board {
+    display: flex;
+    width: 500px;
+    flex-wrap: wrap;
+    margin: auto;
+}
+
+.game-square {
+    width: 150px;
+    background-color: bisque;
+    text-align: center;
+    padding: 50px 0;
+    border: 1px solid black;
+}
