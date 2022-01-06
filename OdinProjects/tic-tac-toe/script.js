@@ -1,18 +1,31 @@
+// the gameboard has 9 values that relate to the 9 spaces on the board. These values can either be 'x' or 'o'.
+// The gameboard contains a function to render the 9 game squares on the screen. Each of these gamesquare should come with an event listener.
+// 
+
 const gameboard = (() => { // using a module pattern to create the gameBoard object
     let gameboardArr = ['', '', '', '', '', '', '', '', '']; // initialising the array to hold each of the squares on the gameboard
-    
-    const getGameboardArr = () => console.log(`The current gameboard looks like: ${gameboardArr}`);
     
     const renderGameboard = () => {
         let board = document.querySelector('.game-board');
         while(board.lastChild) {
             board.removeChild(board.lastChild);
         }
+        let index = 0;
         gameboardArr.forEach(x => {
             let square = document.createElement('div');
             square.innerText = x;
             square.classList = 'game-square';
+            square.setAttribute('data-index', index);
+            square.addEventListener('click', function() {
+                if (!this.innerText) {
+                    gameboardArr[this.dataset.index] = 'x';
+                    renderGameboard();
+                } else {
+                    console.log('No!');
+                };
+            })
             board.appendChild(square);
+            index ++;
         });
     }
 
@@ -22,7 +35,6 @@ const gameboard = (() => { // using a module pattern to create the gameBoard obj
     }
     
     return {
-        getGameboardArr,
         renderGameboard,
         setMarker
     };
@@ -36,21 +48,12 @@ const Player = (name) => { // creating a factor for the objects that play the ga
     let numWins = 0;
     const getName = () => name;
 
-    const placeMarker = (markerPosition, playersMarker) => {
-        gameboard.setMarker(markerPosition, playersMarker);
-    }
-
-    return {
-        placeMarker
-    }
 }
 
 const AI = () => { // creating a factor for the AI player that inherets methods and properties from the player object
 
 }
 
-gameboard.getGameboardArr();
+
 gameboard.renderGameboard();
 
-const p1 = Player('Caleb');
-p1.placeMarker(5, 'x');
