@@ -1,14 +1,51 @@
+.title {
+    font-size: 5rem;
+    text-align: center;
+    margin: 50px 0;
+}
+
+.message {
+    font-size: 2rem;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
 .game-board {
-    display: flex;
-    width: 500px;
-    flex-wrap: wrap;
-    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 450px;
+    grid-gap: 0;
+    margin: 0px auto;
 }
 
 .game-square {
     width: 150px;
-    background-color: bisque;
+    height: 150px;
     text-align: center;
-    padding: 50px 0;
-    border: 1px solid black;
+    font-size: 7.5rem;
+    cursor: pointer;
+}
+
+.game-square:hover {
+    background-color: gray;
+}
+
+.top {
+    border-bottom: 1px solid black;
+}
+
+.center {
+    border-bottom: 1px solid black;
+}
+
+.left {
+    border-right: 1px solid black;
+}
+
+.middle {
+    border-right: 1px solid black;
+}
+.reset-button {
+    text-align: center;
+    margin: 50px 0;
 }

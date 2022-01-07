@@ -7,9 +7,21 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Tic Tac Toe</h1>
+    <h1 class='title'>Tic Tac Toe</h1>
+    <p class="message"></p>
     <div class="game-board">
-
+        <div class="game-square left top" data-index='0'></div>
+        <div class="game-square middle top" data-index='1'></div>
+        <div class="game-square right top" data-index='2'></div>
+        <div class="game-square left center" data-index='3'></div>
+        <div class="game-square middle center" data-index='4'></div>
+        <div class="game-square right center" data-index='5'></div>
+        <div class="game-square left bottom" data-index='6'></div>
+        <div class="game-square middle bottom" data-index='7'></div>
+        <div class="game-square right bottom" data-index='8'></div>
+    </div>
+    <div class='reset-button'>
+        <button class='reset'>Reset</button>
     </div>
     <script src="script.js"></script>
 </body>
