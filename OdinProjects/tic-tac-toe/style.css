@@ -7,7 +7,11 @@
 .message {
     font-size: 2rem;
     text-align: center;
-    padding-bottom: 20px;
+}
+
+.game-type {
+    text-align: center;
+    margin-bottom: 40px;
 }
 
 .game-board {
