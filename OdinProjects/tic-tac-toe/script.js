@@ -53,6 +53,32 @@ const gameboard = (() => {
         gameStatus = false;
     }
 
+    // setting up the ability to toggle on a pvp or a pvc game
+    let gameSetting = 'pvp';
+
+    const changeGameSetting = (setting) => {
+        gameSetting = setting;
+    };
+
+    let pvpButton = document.querySelector('.pvp');
+    let pvcButton = document.querySelector('.pvc');
+
+    pvcButton.addEventListener('click', () => {
+        if (gameSetting === 'pvp') {
+            pvpButton.classList = 'pvp';
+            pvcButton.classList = 'pvc selected-setting';
+            changeGameSetting('pvc');
+        }
+    })
+
+    pvpButton.addEventListener('click', () => {
+        if (gameSetting === 'pvc') {
+            pvpButton.classList = 'pvp selected-setting';
+            pvcButton.classList = 'pvc';
+            changeGameSetting('pvp');
+        }
+    })
+
     // add an event listener to the squares so that we can place markers then update the board
     gameSquares.forEach((gameSquare) => {
         gameSquare.addEventListener('click', (e) => {
@@ -62,7 +88,7 @@ const gameboard = (() => {
             if (getCurrentMove() === 8) {
                 endGame();
             }
-            if (gameStatus) {
+            if (gameStatus && gameSetting === 'pvc') {
                 setTimeout(function() {
                     displayController.compMove();
                 }, 500);
