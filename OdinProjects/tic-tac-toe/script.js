@@ -139,26 +139,32 @@ const gameboard = (() => {
 })();
 
 const displayController = (() => { // creating the object to control the flow of the game itself
+    // identify the 8 win conditions - I want to put this in a wider scope because I want to use it to help decide the computer's next move
+    const winConditions = [
+        [0,1,2],
+        [3,4,5],
+        [6,7,8],
+        [0,3,6],
+        [1,4,7],
+        [2,5,8],
+        [0,4,8],
+        [2,4,6]]; 
 
     // check to see whether anyone has satisfied a winning condition yet
     const checkWinCondition = (squareIndex, marker) => {
-        // identify the 8 win conditions
-        const winConditions = [
-            [0,1,2],
-            [3,4,5],
-            [6,7,8],
-            [0,3,6],
-            [1,4,7],
-            [2,5,8],
-            [0,4,8],
-            [2,4,6]]; 
-
         // for each array in the array, filter checks whether they include the index of the square that was just played. Filter then returns an array that contains only those win conditions that contain the played index. Some then checks whether every square at the indices contained in the arrays match the player's marker. If they do, then it returns true.
         return winConditions
             .filter((condition) => condition.includes(squareIndex))
             .some((possibleCondition) => possibleCondition.every(
                 (index) => gameboard.getGameSquare(index) === marker));
     }
+
+    const checkWinNextTurn = () => {
+        //let x = winConditions.filter((condition) => condition.map((index) => gameboard.getGameSquare(index)).includes(gameboard.getMarker()))
+        //let currentGameboard = winConditions.map((condition) => condition.map((index) => gameboard.getGameSquare(index)));
+        //return currentGameboard;
+    }
+    //console.log(checkWinNextTurn());
 
     const displayWinner = () => {
         message.textContent = `Player ${gameboard.getMarker()} won!`
@@ -180,15 +186,15 @@ const displayController = (() => { // creating the object to control the flow of
     // create a random index between 0-8, check whether there is a marker in the gameboard at that random index, if not, place a marker, move to the next round. If there is already a marker there, then make another random marker.
     const compMove = () => {
         let trigger = false;
-        let randomIndex;
+        let index;
         while (trigger === false) {
-            randomIndex = Math.floor(Math.random() * 8);
-            if (gameboard.getGameSquare(randomIndex) === '') {
-                gameboard.placeMarker(randomIndex);
+            index = Math.floor(Math.random() * 8);
+            if (gameboard.getGameSquare(index) === '') {
+                gameboard.placeMarker(index);
                 trigger = true;
             }
         }
-        if (checkWinCondition(randomIndex, gameboard.getMarker())) {
+        if (checkWinCondition(index, gameboard.getMarker())) {
             gameboard.endGame();
             displayWinner();
         } else {
