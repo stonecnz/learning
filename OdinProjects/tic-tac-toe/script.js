@@ -58,17 +58,24 @@ const gameboard = (() => {
         gameSquare.addEventListener('click', (e) => {
             if (gameStatus && e.target.textContent === '') {
                 displayController.playerMove(parseInt(e.target.dataset.index));    
-                updateGameboard();
-                }
-            }    
-        )}
-    );
+            }
+            if (getCurrentMove() === 8) {
+                endGame();
+            }
+            if (gameStatus) {
+                setTimeout(function() {
+                    displayController.compMove();
+                }, 500);
+            }
+        })
+    });
 
     // depending on who is currently playing, adds the player's marker into the gameboardArray
     const placeMarker = (index) => {
         if (index < gameboardArr.length) {
             gameboardArr[index] = getMarker();
         }
+        updateGameboard();
     };
 
     //Update the gameboard by iterating through the node list and matching the array to each in the list
@@ -77,7 +84,6 @@ const gameboard = (() => {
             gameSquares[i].textContent = gameboardArr[i];            
         }
     }
-    updateGameboard();
 
     // function to be used to reset when the reset button is clicked.
     const resetGameboard = () => {
@@ -101,7 +107,8 @@ const gameboard = (() => {
         progressCurrentMove,
         resetCurrentMove,
         updateTurnMessage,
-        placeMarker
+        placeMarker,
+        updateGameboard
     };
 })();
 
@@ -131,6 +138,7 @@ const displayController = (() => { // creating the object to control the flow of
         message.textContent = `Player ${gameboard.getMarker()} won!`
     }
 
+    // This could be placed within a player factory function and produced when a game is started...  
     const playerMove = (squareIndex) => {
         gameboard.placeMarker(squareIndex);
         if (checkWinCondition(squareIndex, gameboard.getMarker())) {
@@ -145,22 +153,23 @@ const displayController = (() => { // creating the object to control the flow of
     // this should be placed within a function most likely, but I don't know why or how yet. 
     // create a random index between 0-8, check whether there is a marker in the gameboard at that random index, if not, place a marker, move to the next round. If there is already a marker there, then make another random marker.
     const compMove = () => {
-        let moveMade = false;
-        let randomIndex = Math.floor(Math.random() * 8);
-        while (!moveMade) {
-            if (gameboard.gameboardArr[randomIndex] === '') {
+        let trigger = false;
+        let randomIndex;
+        while (trigger === false) {
+            randomIndex = Math.floor(Math.random() * 8);
+            if (gameboard.getGameSquare(randomIndex) === '') {
                 gameboard.placeMarker(randomIndex);
-                gameboard.updateGameboard();
-                if (checkWinCondition(randomIndex), gameboard.getMarker()) {
-                    gameboard.gameStatus = false;
-                    displayWinner();
-                } else {
-                    gameboard.currentMove ++;
-                    gameboard.updateTurnMessage();
-                };
+                trigger = true;
             }
         }
-    }
+        if (checkWinCondition(randomIndex, gameboard.getMarker())) {
+            gameboard.endGame();
+            displayWinner();
+        } else {
+            gameboard.progressCurrentMove();
+            gameboard.updateTurnMessage();
+        }
+    };
 
     return {
         checkWinCondition,
