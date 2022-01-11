@@ -35,11 +35,16 @@ const gameboard = (() => {
         }
     };
 
+    // Sets the message to reflect whose turn it is
     const updateTurnMessage = () => {
         message.textContent = `Player ${getMarker()}'s turn`;
     }
 
     updateTurnMessage();
+
+    const draw = () => {
+        message.textContent = 'The game was a draw';
+    }
 
 
     // status of game
@@ -68,6 +73,7 @@ const gameboard = (() => {
             pvpButton.classList = 'pvp';
             pvcButton.classList = 'pvc selected-setting';
             changeGameSetting('pvc');
+            resetGameboard();
         }
     })
 
@@ -76,6 +82,7 @@ const gameboard = (() => {
             pvpButton.classList = 'pvp selected-setting';
             pvcButton.classList = 'pvc';
             changeGameSetting('pvp');
+            resetGameboard();
         }
     })
 
@@ -85,12 +92,13 @@ const gameboard = (() => {
             if (gameStatus && e.target.textContent === '') {
                 displayController.playerMove(parseInt(e.target.dataset.index));    
             }
-            if (getCurrentMove() === 8) {
+            if (getCurrentMove() > 8) {
                 endGame();
+                draw();
             }
             if (gameStatus && gameSetting === 'pvc') {
                 setTimeout(function() {
-                    displayController.compMove();
+                    displayController.compMove(displayController.randomEmptySquare());
                 }, 500);
             }
         })
@@ -184,16 +192,20 @@ const displayController = (() => { // creating the object to control the flow of
 
     // this should be placed within a function most likely, but I don't know why or how yet. 
     // create a random index between 0-8, check whether there is a marker in the gameboard at that random index, if not, place a marker, move to the next round. If there is already a marker there, then make another random marker.
-    const compMove = () => {
+    const randomEmptySquare = () => {
         let trigger = false;
         let index;
         while (trigger === false) {
             index = Math.floor(Math.random() * 8);
             if (gameboard.getGameSquare(index) === '') {
-                gameboard.placeMarker(index);
                 trigger = true;
+                return index;
             }
         }
+    }
+    
+    const compMove = (index) => {
+        gameboard.placeMarker(index);
         if (checkWinCondition(index, gameboard.getMarker())) {
             gameboard.endGame();
             displayWinner();
@@ -207,7 +219,8 @@ const displayController = (() => { // creating the object to control the flow of
         checkWinCondition,
         displayWinner,
         compMove,
-        playerMove
+        playerMove,
+        randomEmptySquare
     };
 
 })();
