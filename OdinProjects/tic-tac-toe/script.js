@@ -90,7 +90,7 @@ const gameboard = (() => {
     gameSquares.forEach((gameSquare) => {
         gameSquare.addEventListener('click', (e) => {
             if (gameStatus && e.target.textContent === '') {
-                displayController.playerMove(parseInt(e.target.dataset.index));    
+                displayController.playerMove(parseInt(e.target.dataset.index));   
             }
             if (getCurrentMove() > 8) {
                 endGame();
@@ -159,29 +159,38 @@ const displayController = (() => { // creating the object to control the flow of
         [2,4,6]]; 
 
     // check to see whether anyone has satisfied a winning condition yet
-    const checkWinCondition = (squareIndex, marker) => {
+    const checkWinCondition = (index) => {
         // for each array in the array, filter checks whether they include the index of the square that was just played. Filter then returns an array that contains only those win conditions that contain the played index. Some then checks whether every square at the indices contained in the arrays match the player's marker. If they do, then it returns true.
         return winConditions
-            .filter((condition) => condition.includes(squareIndex))
+            .filter((condition) => condition.includes(index))
             .some((possibleCondition) => possibleCondition.every(
-                (index) => gameboard.getGameSquare(index) === marker));
+                (index) => gameboard.getGameSquare(index) === gameboard.getMarker()));
     }
 
-    const checkWinNextTurn = () => {
+    const minmax = () => {
+        const bestMove = (index) => {
+            if (checkWinCondition(index)) {
+                return index;
+            }
+            gameboard.progressCurrentMove();
+            return bestMove();
+        }
+        bestMove(randomEmptySquare());
+        
         //let x = winConditions.filter((condition) => condition.map((index) => gameboard.getGameSquare(index)).includes(gameboard.getMarker()))
         //let currentGameboard = winConditions.map((condition) => condition.map((index) => gameboard.getGameSquare(index)));
         //return currentGameboard;
     }
-    //console.log(checkWinNextTurn());
+
 
     const displayWinner = () => {
         message.textContent = `Player ${gameboard.getMarker()} won!`
     }
 
     // This could be placed within a player factory function and produced when a game is started...  
-    const playerMove = (squareIndex) => {
-        gameboard.placeMarker(squareIndex);
-        if (checkWinCondition(squareIndex, gameboard.getMarker())) {
+    const playerMove = (index) => {
+        gameboard.placeMarker(index);
+        if (checkWinCondition(index)) {
             gameboard.endGame();
             displayWinner();
         } else {
@@ -206,7 +215,7 @@ const displayController = (() => { // creating the object to control the flow of
     
     const compMove = (index) => {
         gameboard.placeMarker(index);
-        if (checkWinCondition(index, gameboard.getMarker())) {
+        if (checkWinCondition(index)) {
             gameboard.endGame();
             displayWinner();
         } else {
@@ -216,19 +225,11 @@ const displayController = (() => { // creating the object to control the flow of
     };
 
     return {
-        checkWinCondition,
-        displayWinner,
         compMove,
         playerMove,
-        randomEmptySquare
+        randomEmptySquare,
+        minmax
     };
 
 })();
 
-const Player = (name) => { // creating a factor for the objects that play the game
-
-}
-
-const AI = () => { // creating a factor for the AI player that inherets methods and properties from the player object
-
-}
