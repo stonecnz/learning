@@ -5,6 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "Launch Test",
+            "request": "launch",
+            "mainClass": "Test",
+            "projectName": "learning_d1f77349"
+        },
+        {
+            "type": "java",
+            "name": "Launch QuickStart",
+            "request": "launch",
+            "mainClass": "QuickStart",
+            "projectName": "learning_d1f77349"
+        },
+        {
             "type": "pwa-chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
