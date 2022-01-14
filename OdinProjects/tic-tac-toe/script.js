@@ -173,7 +173,7 @@ const displayController = (() => { // creating the object to control the flow of
                 return index;
             }
             gameboard.progressCurrentMove();
-            return bestMove();
+            return bestMove(randomEmptySquare());
         }
         bestMove(randomEmptySquare());
         
