@@ -14,7 +14,13 @@ const gameboard = (() => {
 
     //to check whether there is an empty cell at an index
     const checkIfCellEmpty = (index) => {
-        return gameboardArr[index] !== "" ? true : false;
+        return gameboardArr[index] === "" ? true : false;
+    }
+
+    const checkIfAllCellsFull = () => {
+        return gameboardArr.every((item) => {
+            item !== ""
+        });
     }
 
     // the current move in a round: even = x; odd = o.
@@ -148,7 +154,8 @@ const gameboard = (() => {
         updateTurnMessage,
         placeMarker,
         updateGameboard,
-        checkIfCellEmpty
+        checkIfCellEmpty,
+        checkIfAllCellsFull
     };
 })();
 
@@ -234,6 +241,7 @@ const displayController = (() => { // creating the object to control the flow of
         let score = minmaxEvaluate();
         if (score === 10) return score;
         if (score === -10) return score;
+        if (gameboard.checkIfAllCellsFull) return 0;
         if (isMax) {
             let best = -1000;
 
@@ -265,7 +273,7 @@ const displayController = (() => { // creating the object to control the flow of
 
         for (let i = 0; i < gameboard.gameboardArr.length; i++) {
             if (gameboard.checkIfCellEmpty(i)) {
-                gameboard.gameboardArr[i] = "X";
+                gameboard.gameboardArr[i] = "O";
                 let moveVal = minmax(gameboard.gameboardArr, 0, false);
                 gameboard.gameboardArr[i] = "";
 
