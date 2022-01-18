@@ -159,47 +159,21 @@ const displayController = (() => { // creating the object to control the flow of
         [2,4,6]]; 
 
     // check to see whether anyone has satisfied a winning condition yet
-    const checkWinCondition = (index) => {
-        // for each array in the array, filter checks whether they include the index of the square that was just played. Filter then returns an array that contains only those win conditions that contain the played index. Some then checks whether every square at the indices contained in the arrays match the player's marker. If they do, then it returns true.
-        return winConditions
-            .filter((condition) => condition.includes(index))
-            .some((possibleCondition) => possibleCondition.every(
-                (index) => gameboard.getGameSquare(index) === gameboard.getMarker()));
-    }
+    // const checkWinCondition = (index) => {
+    //     // for each array in the array, filter checks whether they include the index of the square that was just played. Filter then returns an array that contains only those win conditions that contain the played index. Some then checks whether every square at the indices contained in the arrays match the player's marker. If they do, then it returns true.
+    //     return winConditions
+    //         .filter((condition) => condition.includes(index))
+    //         .some((possibleCondition) => possibleCondition.every(
+    //             (index) => gameboard.getGameSquare(index) === gameboard.getMarker()));
+    // }
 
-    const minmax = () => {
-        const bestMove = (index) => {
-            if (checkWinCondition(index)) {
-                return index;
-            }
-            gameboard.progressCurrentMove();
-            return bestMove(randomEmptySquare());
-        }
-        bestMove(randomEmptySquare());
-        
-        //let x = winConditions.filter((condition) => condition.map((index) => gameboard.getGameSquare(index)).includes(gameboard.getMarker()))
-        //let currentGameboard = winConditions.map((condition) => condition.map((index) => gameboard.getGameSquare(index)));
-        //return currentGameboard;
-    }
+    const checkWin = (marker) => {
+        return winConditions.some((possibleCondition) => possibleCondition.every(
+            (index) => gameboard.getGameSquare(index) === marker
+        ))
+    };
 
-
-    const displayWinner = () => {
-        message.textContent = `Player ${gameboard.getMarker()} won!`
-    }
-
-    // This could be placed within a player factory function and produced when a game is started...  
-    const playerMove = (index) => {
-        gameboard.placeMarker(index);
-        if (checkWinCondition(index)) {
-            gameboard.endGame();
-            displayWinner();
-        } else {
-            gameboard.progressCurrentMove();
-            gameboard.updateTurnMessage();
-        }             
-    }
-
-    // this should be placed within a function most likely, but I don't know why or how yet. 
+        // this should be placed within a function most likely, but I don't know why or how yet. 
     // create a random index between 0-8, check whether there is a marker in the gameboard at that random index, if not, place a marker, move to the next round. If there is already a marker there, then make another random marker.
     const randomEmptySquare = () => {
         let trigger = false;
@@ -212,10 +186,32 @@ const displayController = (() => { // creating the object to control the flow of
             }
         }
     }
+
+
+    const minmax = (marker) => {
+
+    }
+
+    const displayWinner = () => {
+        message.textContent = `Player ${gameboard.getMarker()} won!`
+    }
+
+    // This could be placed within a player factory function and produced when a game is started...  
+    const playerMove = (index) => {
+        gameboard.placeMarker(index);
+        if (checkWin("X")) {
+            gameboard.endGame();
+            displayWinner();
+        } else {
+            gameboard.progressCurrentMove();
+            gameboard.updateTurnMessage();
+        }             
+    }
+
     
     const compMove = (index) => {
         gameboard.placeMarker(index);
-        if (checkWinCondition(index)) {
+        if (checkWin("O")) {
             gameboard.endGame();
             displayWinner();
         } else {
@@ -232,4 +228,6 @@ const displayController = (() => { // creating the object to control the flow of
     };
 
 })();
+
+
 

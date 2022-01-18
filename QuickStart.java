@@ -1,24 +1,29 @@
-import java.util.Scanner;
+// import java.util.Scanner;
+// import java.text.DecimalFormat;
 
 class Echo {
 
     public static void main (String[] args) {
-        int one, two, three;
-        Float average;
-        Scanner scan = new Scanner(System.in);
+        String introduction = "There were many people singing";
+        System.out.println(introduction.charAt(8));
+        
+        // int number; 
+        // double result;
+        // Scanner scan = new Scanner(System.in);
 
-        try {
-            System.out.println("Enter three integers:");
-            
-            one = scan.nextInt();
-            two = scan.nextInt();
-            three = scan.nextInt();
+        // try {
+        //     String overview = new String("Enter a number: ");
+        //     System.out.println(overview.length());
+        //     number = scan.nextInt();
+        //     result = Math.pow(number, 2.5);
 
-            average = (float) (one + two + three) / 3;
+        //     DecimalFormat fmt = new DecimalFormat("0.##");
 
-            System.out.println(average);
-        } finally {
-            scan.close();
-        }
+
+
+        //     System.out.println(fmt.format(result));
+        // } finally {
+        //     scan.close();
+        // }
     }
 }
