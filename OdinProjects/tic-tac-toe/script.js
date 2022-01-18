@@ -12,6 +12,11 @@ const gameboard = (() => {
         }
     }
 
+    //to check whether there is an empty cell at an index
+    const checkIfCellEmpty = (index) => {
+        return gameboardArr[index] !== "" ? true : false;
+    }
+
     // the current move in a round: even = x; odd = o.
     let currentMove = 0;
 
@@ -98,7 +103,7 @@ const gameboard = (() => {
             }
             if (gameStatus && gameSetting === 'pvc') {
                 setTimeout(function() {
-                    displayController.compMove(displayController.randomEmptySquare());
+                    displayController.compMove(displayController.findBestMove());
                 }, 500);
             }
         })
@@ -142,7 +147,8 @@ const gameboard = (() => {
         resetCurrentMove,
         updateTurnMessage,
         placeMarker,
-        updateGameboard
+        updateGameboard,
+        checkIfCellEmpty
     };
 })();
 
@@ -173,6 +179,36 @@ const displayController = (() => { // creating the object to control the flow of
         ))
     };
 
+    const checkForWinner = () => {
+        let x_arr = [];
+        let o_arr = [];
+
+        const resultArray = gameboard.gameboardArr.filter((item) => item != "");
+        if (resultArray.length >= 5) {
+            //get indexes of each mark in separate array
+            gameboard.gameboardArr.forEach((item, index) => {
+                if (item == 'X') {
+                    x_arr.push(index);
+                } else if (item == 'O') {
+                    o_arr.push(index);
+                }
+            });
+            
+            for (let i = 0; i < winConditions.length; i++) {
+                const possibleCondition = winConditions[i];
+                let x_result = possibleCondition.every((item) => x_arr.includes(item));
+                let o_result = possibleCondition.every((item) => o_arr.includes(item));
+
+                if (x_result || o_result) {
+                    return x_result ? "X" : "O";
+                }
+            }
+        }
+    }
+
+
+
+
         // this should be placed within a function most likely, but I don't know why or how yet. 
     // create a random index between 0-8, check whether there is a marker in the gameboard at that random index, if not, place a marker, move to the next round. If there is already a marker there, then make another random marker.
     const randomEmptySquare = () => {
@@ -180,17 +216,69 @@ const displayController = (() => { // creating the object to control the flow of
         let index;
         while (trigger === false) {
             index = Math.floor(Math.random() * 8);
-            if (gameboard.getGameSquare(index) === '') {
+            if (!gameboard.checkIfCellEmpty(index)) {
                 trigger = true;
                 return index;
             }
         }
     }
 
-
-    const minmax = (marker) => {
-
+    const minmaxEvaluate = () => {
+        // I think this is the evaluation formula that determines whether a branch is a good one to take or not. 
+        //return winner = checkWin("X") ? -10: checkWin("O") ? 10 : 0; 
+        let winner = checkForWinner();
+        return winner === "X" ? -10 : winner === "O" ? 10 : 0;
     }
+
+    const minmax = (board, depth, isMax) => {
+        let score = minmaxEvaluate();
+        if (score === 10) return score;
+        if (score === -10) return score;
+        if (isMax) {
+            let best = -1000;
+
+            for (let i = 0; i < board.length; i++) {
+                if (gameboard.checkIfCellEmpty(i)) {
+                    board[i] = "O";
+                    best = Math.max(best, minmax(board, depth + 1, !isMax));
+                    board[i] = "";
+                }
+            }
+            return best;
+        } else {
+            let best = 1000;
+
+            for (let i = 0; i < board.length; i++) {
+                if (gameboard.checkIfCellEmpty(i)) {
+                    board[i] = "X";
+                    best = Math.max(best, minmax(board, depth + 1, !isMax));
+                    board[i] = "";
+                }
+            }
+            return best;
+        }
+    }
+
+    const findBestMove = () => {
+        let bestVal = -1000;
+        let moveIndex = -1;
+
+        for (let i = 0; i < gameboard.gameboardArr.length; i++) {
+            if (gameboard.checkIfCellEmpty(i)) {
+                gameboard.gameboardArr[i] = "X";
+                let moveVal = minmax(gameboard.gameboardArr, 0, false);
+                gameboard.gameboardArr[i] = "";
+
+                if (moveVal > bestVal) {
+                    moveIndex = i;
+                    bestVal = moveVal;
+                }
+            }
+        }
+        return moveIndex;
+    }
+
+    //console.log(findBestMove())
 
     const displayWinner = () => {
         message.textContent = `Player ${gameboard.getMarker()} won!`
@@ -224,7 +312,7 @@ const displayController = (() => { // creating the object to control the flow of
         compMove,
         playerMove,
         randomEmptySquare,
-        minmax
+        findBestMove
     };
 
 })();
