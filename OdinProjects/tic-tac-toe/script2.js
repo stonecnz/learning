@@ -18,6 +18,8 @@ const gameboard = (() => {
 
     // add a value to a cell in the field
     const changeCellInField = (index, value) => {
+        if (index > field.length) return;
+        if (index === undefined) return;
         field[index] = value;
     }
 
@@ -48,18 +50,71 @@ const gameboard = (() => {
     // reset button eventlistener and behaviour
     const resetButton = document.querySelector(".reset"); // grab the dom element
     resetButton.addEventListener("click", resetGame);
- 
 
     // add event listener to a cell in the field on the Dom
     fieldInDom.forEach((cell) => {
-        cell.addEventListener("click", (e) => {
-            let index = e.target.dataset.index;
-            let playersMark = "X"; // this is a placeholder for the purposes of the eventlistener on the cells.
-            if (!cellValue(index)) { // if the cell is empty, then we will change the value to match the player.
-                changeCellInField(parseInt(index), playersMark); // the players mark here will need to reflect whether it is player one or two. 
-            } 
-            renderField();
-        })
-    })
+        cell.addEventListener("click", placeMarker);
+        renderField();
+    });
+
+    return {
+        cellValue,
+        changeCellInField
+    }
 
 })();
+
+const gameLogic =(() => {
+    // a current round is required to determine who the current player is: if modulo 2 then player with the X plays; otherwise, player with the O plays. 
+    let currentRound = 0;
+
+    // Start with a default player1 and player2 marker, these can be changed if the players decide to do so. 
+    let player1 = Player("X");
+    let player2 = Player("O");
+
+    // declaring the gamemode so that these can be changed. 
+    let gameMode = "pvp";
+
+    // change gamemode
+    const toggleGamemode = () => {
+        
+    }
+
+    const getCurrentPlayer = () => {
+        
+    }
+
+})();
+
+const Player = marker => {
+    this.marker = marker;
+
+    const getMarker = () => {
+        return this.marker;
+    }
+
+    const setMarker = (marker) => {
+        if (marker != "X" || marker != "O") return;
+        this.marker = marker;
+    }
+
+    const placeMarker = (eventTarget) => {
+        let index = eventTarget.target.dataset.index;
+        if (!gameboard.cellValue(index)) gameboard.changeCellInField(parseInt(index), "X");
+    }
+
+    return {
+        placeMarker,
+        getMarker,
+        setMarker
+    }
+} 
+
+const Cpu = marker => {
+    const prototype = Player(marker);
+
+    return Object.assign({}, prototype, 
+        {
+
+        })
+}
