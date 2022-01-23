@@ -1,4 +1,40 @@
+// creating the player module earlier so that this can used later. 
+const Player = marker => {
+    // the marker should be declared in the game logic
+    this.marker = marker; 
+
+    // this won't be used during the gamelogic persay, but it will help determine who plays first 
+    const getMarker = () => {
+        return this.marker;
+    }
+
+    const setMarker = (marker) => {
+        if (!marker) return; // guard clauses - are these often used, Hyojin?
+        if (marker != "X" || marker != "O") return;
+        this.marker = marker;
+    }
+
+    return {
+        getMarker,
+        setMarker
+    }
+} 
+
+const Cpu = marker => {
+    const prototype = Player(marker);
+
+    const getRandomIndex = array => {
+        return Math.floor(Math.random() * array.length)
+    }
+
+    return Object.assign({}, prototype, 
+        {
+            getRandomIndex
+        })
+}
+
 const gameLogic =(() => {
+    const cpuPlayer = Cpu("O");
     // a current round is required to determine who the current player is: if modulo 2 then player with the X plays; otherwise, player with the O plays. 
     let currentRound = 0;
 
@@ -78,9 +114,9 @@ const gameLogic =(() => {
         if (resultArray.length >= 5) {
             //get indexes of each mark in separate array
             field.forEach((item, index) => {
-                if (item == 'X') {
+                if (item === 'X') {
                     x_arr.push(index);
-                } else if (item == 'O') {
+                } else if (item === 'O') {
                     o_arr.push(index);
                 }
             });
@@ -147,12 +183,23 @@ const gameboard = (() => {
         return field[index];
     }
 
+    // return a list of indexes from the current field 
+    const getCurrentEmptyCells = (field) => {
+        let array = [];
+        field.forEach((item, index) => {
+            array.push(item, index);
+        });
+        return array;
+    }
+
+    console.log(getCurrentEmptyCells(field));
+
     // set the message at the top of the board
     const message = document.querySelector(".message"); // grab the message element on the dom
     const getMessage = () => {
         if (!checkForEmptyCells() && gameLogic.getGameStatus()) return "The game was a draw"; // return a draw message if there are no remaining cells but the game status is still true, i.e., no one has won yet. 
-        if (checkForEmptyCells() && gameLogic.getGameStatus()) return `Player ${gameLogic.getCurrentMarker()}'s Turn`; // return the current players message if there are empty cells and no one has won yet.
-        if (!gameLogic.getGameStatus()) return `Player ${gameLogic.getCurrentMarker()} Won` // return the winner's message if someone has won. I haven't written the function for this yet.
+        if (checkForEmptyCells() && gameLogic.getGameStatus()) return `${gameLogic.getCurrentMarker()}'s Turn`; // return the current players message if there are empty cells and no one has won yet.
+        if (!gameLogic.getGameStatus()) return `${gameLogic.getCurrentMarker()} Won` // return the winner's message if someone has won. I haven't written the function for this yet.
     }
 
     const setMessage = (text) => {
@@ -172,10 +219,8 @@ const gameboard = (() => {
     const resetButton = document.querySelector(".reset"); // grab the dom element
     resetButton.addEventListener("click", resetGame);
 
-    const placeMarker = (eventTarget) => {
+    const placeMarker = (index, marker) => {  
         if (!gameLogic.getGameStatus()) return; // return out of the function if the game is no longer active; i.e., it has been won or drawn.
-        let index = eventTarget.target.dataset.index;
-        let marker = gameLogic.getCurrentMarker();
         if (!cellValue(index)) changeCellInField(parseInt(index), marker); // add marker to cell
         if (gameLogic.checkForWinner(field)) gameLogic.endGame(); // ends the game, turns the game status to false, if someone has won. 
         if (checkForEmptyCells() && gameLogic.getGameStatus()) gameLogic.nextRound();
@@ -184,8 +229,12 @@ const gameboard = (() => {
 
     // add event listener to a cell in the field on the Dom
     fieldInDom.forEach((cell) => {
-        cell.addEventListener("click", placeMarker); // places a marker in the field at a certain index.
-        cell.addEventListener("click", renderField); // renders the field with all of the new markers present.
+        cell.addEventListener("click", (e) => {
+            placeMarker(e.target.dataset.index, gameLogic.getCurrentMarker()); // places a marker in the field at a certain index.
+            renderField(); // renders the field with all of the new markers present.
+            if (gameLogic.getGamemode() === "pvc") setTimeout(placeMarker(0, gameLogic.getCurrentMarker()), 1000);
+            renderField(); // renders the field with all of the new markers present.
+        });
     });
 
     // grabbing the dom elements for the gamemode and assigning an event listener to change the gamemode
@@ -204,30 +253,3 @@ const gameboard = (() => {
     }
 
 })();
-
-const Player = marker => {
-    this.marker = marker;
-
-    const getMarker = () => {
-        return this.marker;
-    }
-
-    const setMarker = (marker) => {
-        if (marker != "X" || marker != "O") return;
-        this.marker = marker;
-    }
-
-    return {
-        getMarker,
-        setMarker
-    }
-} 
-
-const Cpu = marker => {
-    const prototype = Player(marker);
-
-    return Object.assign({}, prototype, 
-        {
-
-        })
-}

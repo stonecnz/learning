@@ -8,27 +8,39 @@
 </head>
 <body>
     <h1 class='title'>Tic Tac Toe</h1>
+    <div class="display">
+        <div class="controls">
+            <div class="game-type">
+                <p>Gamemode</p>
+                <button class="gamemode selected">Player vs. Player</button>
+                <button class="gamemode">Player vs. Computer</button>
+            </div>
+            <!-- <div class="players">
+                <div class="player">
+                    <p>Player One</p>
+                    <p class="marker">X</p>
+                </div>
+                <div class="player">
+                    <p>Player Two</p>
+                    <p class="marker">O</p>
+                </div>
+            </div> -->
+            <p class="message">X's Turn</p>
+            <button class='reset'>Reset</button>
+        </div> 
 
-    <div class="game-type">
-        <button class="gamemode selected">Player vs. Player</button>
-        <button class="gamemode">Player vs. Computer</button>
-    </div>
+        <div class="game-board">
+            <div class="game-square left top" data-index='0'></div>
+            <div class="game-square middle top" data-index='1'></div>
+            <div class="game-square right top" data-index='2'></div>
+            <div class="game-square left center" data-index='3'></div>
+            <div class="game-square middle center" data-index='4'></div>
+            <div class="game-square right center" data-index='5'></div>
+            <div class="game-square left bottom" data-index='6'></div>
+            <div class="game-square middle bottom" data-index='7'></div>
+            <div class="game-square right bottom" data-index='8'></div>
+        </div>
 
-    <p class="message">Player X's Turn</p>
-    
-    <div class="game-board">
-        <div class="game-square left top" data-index='0'></div>
-        <div class="game-square middle top" data-index='1'></div>
-        <div class="game-square right top" data-index='2'></div>
-        <div class="game-square left center" data-index='3'></div>
-        <div class="game-square middle center" data-index='4'></div>
-        <div class="game-square right center" data-index='5'></div>
-        <div class="game-square left bottom" data-index='6'></div>
-        <div class="game-square middle bottom" data-index='7'></div>
-        <div class="game-square right bottom" data-index='8'></div>
-    </div>
-    <div class='reset-button'>
-        <button class='reset'>Reset</button>
     </div>
     <script src="script2.js"></script>
 </body>

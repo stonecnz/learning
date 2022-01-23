@@ -1,7 +1,39 @@
+.display {
+    display: flex;
+    justify-content: center;
+    padding: 0 20%;
+}
+
 .title {
     font-size: 5rem;
     text-align: center;
     margin: 50px 0;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 40%;
+    justify-content: space-around;
+    padding: 30px 0;
+    margin: 0 20px;
+    font-size: 1.3rem;
+}
+
+.players {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.player {
+    display: flex;
+    flex-direction: column;
+}
+
+.player p {
+    margin: 5px;
 }
 
 .message {
@@ -53,7 +85,6 @@
 .middle {
     border-right: 1px solid black;
 }
-.reset-button {
-    text-align: center;
-    margin: 50px 0;
+.reset {
+    margin: 50px auto;
 }
