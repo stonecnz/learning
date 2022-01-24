@@ -13,17 +13,17 @@ let myLibrary = [
     }
 ];
 
-// the object constructor creating the book object from input
-function Book(title, author, pages = 0, read = false) {
-    this.title = title
-    this.author = author
-    this.pages = pages
-    this.read = read
-}
+class Book {
+    constructor(title, author, pages = 0, read = false) {
+        this.title = title
+        this.author = author
+        this.pages = pages
+        this.read = read
+    }
 
-// adding a prototype function so that the info can be returned
-Book.prototype.info = function() {
-    return `${this.title} by ${this.author}, ${this.pages} pages, read: ${this.read}`;
+    info() {
+        return `${this.title} by ${this.author}, ${this.pages} pages, read: ${this.read}`;
+    }
 }
 
 // function to add objects to array
