@@ -284,6 +284,12 @@ const gameboard = (() => {
     // reset button eventlistener and behaviour
     const resetButton = document.querySelector(".reset"); // grab the dom element
     resetButton.addEventListener("click", resetGame);
+    resetButton.addEventListener("mousedown", (e) => {
+        e.target.classList.add("active", {duration:500})
+    })
+    resetButton.addEventListener("mouseup", (e) => {
+        e.target.classList.remove("active");
+    })
 
     const placeMarker = (index, marker) => {  
         if (!gameLogic.getGameStatus()) return; // return out of the function if the game is no longer active; i.e., it has been won or drawn.
@@ -302,15 +308,27 @@ const gameboard = (() => {
             placeMarker(getRandomIndex(getIndexesOfEmptyCells()), gameLogic.getCurrentMarker());
             renderField(); // renders the field with all of the new markers present.
         }
+        fieldInDom.forEach((cell) => {
+            cell.addEventListener("click", actOnClick);
+        })
+    }
+
+    // the event listener function to be passed to cells
+    const actOnClick = (eventTarget) => {
+        placeMarker(eventTarget.target.dataset.index, gameLogic.getCurrentMarker()); // places a marker in the field at a certain index.
+        renderField(); // renders the field with all of the new markers present.
+        if (gameLogic.getGamemode() === "pvc") { 
+            // if the game mode is set to player vs computer, then remove the event listener to avoid double clicking before the computer has placed a marker
+            fieldInDom.forEach((cell) => {
+                cell.removeEventListener("click", actOnClick);
+            })
+            setTimeout(computersMove, 1000);
+        }
     }
 
     // add event listener to a cell in the field on the Dom
     fieldInDom.forEach((cell) => {
-        cell.addEventListener("click", (e) => {
-            placeMarker(e.target.dataset.index, gameLogic.getCurrentMarker()); // places a marker in the field at a certain index.
-            renderField(); // renders the field with all of the new markers present.
-            if (gameLogic.getGamemode() === "pvc") setTimeout(computersMove, 1000);
-        });
+        cell.addEventListener("click", actOnClick);
     });
 
     // grabbing the dom elements for the gamemode and assigning an event listener to change the gamemode

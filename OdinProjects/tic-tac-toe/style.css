@@ -16,23 +16,27 @@
     flex-basis: 40%;
     justify-content: space-around;
     margin: 0 20px;
-    font-size: 1.3rem;
-}
-
-.players {
-    display: flex;
-    justify-content: space-around;
-    text-align: center;
     font-size: 1.5rem;
 }
 
-.player {
-    display: flex;
-    flex-direction: column;
+.game-type {
+    text-align: center;
+    margin-bottom: 40px;
 }
 
-.player p {
-    margin: 5px;
+.gamemode {
+    padding: 0 10px;
+    border: none;
+    border-bottom: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+    cursor: pointer;
+    transition: border-bottom 2s;
+}
+
+.selected {
+    border-bottom: 1px solid black;
 }
 
 .difficulty-display {
@@ -61,15 +65,6 @@
     text-align: center;
 }
 
-.game-type {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.selected {
-    background-color: grey;
-}
-
 .game-board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -84,10 +79,6 @@
     text-align: center;
     font-size: 7.5rem;
     cursor: pointer;
-}
-
-.game-square:hover {
-    background-color: gray;
 }
 
 .top {
@@ -107,4 +98,15 @@
 }
 .reset {
     margin: 50px auto;
+    padding: 5px;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.active {
+    outline: 1px solid black;
 }
