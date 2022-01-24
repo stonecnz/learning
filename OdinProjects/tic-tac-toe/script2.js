@@ -1,40 +1,4 @@
-// creating the player module earlier so that this can used later. 
-const Player = marker => {
-    // the marker should be declared in the game logic
-    this.marker = marker; 
-
-    // this won't be used during the gamelogic persay, but it will help determine who plays first 
-    const getMarker = () => {
-        return this.marker;
-    }
-
-    const setMarker = (marker) => {
-        if (!marker) return; // guard clauses - are these often used, Hyojin?
-        if (marker != "X" || marker != "O") return;
-        this.marker = marker;
-    }
-
-    return {
-        getMarker,
-        setMarker
-    }
-} 
-
-const Cpu = marker => {
-    const prototype = Player(marker);
-
-    const getRandomIndex = array => {
-        return Math.floor(Math.random() * array.length)
-    }
-
-    return Object.assign({}, prototype, 
-        {
-            getRandomIndex
-        })
-}
-
 const gameLogic =(() => {
-    const cpuPlayer = Cpu("O");
     // a current round is required to determine who the current player is: if modulo 2 then player with the X plays; otherwise, player with the O plays. 
     let currentRound = 0;
 
@@ -59,6 +23,36 @@ const gameLogic =(() => {
         return currentMarker = currentRound % 2 === 0 ? "X" : "O";
     }
 
+    // setting the difficulty for the AI
+    let gameDifficulty = "Easy";
+
+    // grab the dom elements
+    const difficultyDisplay = document.querySelectorAll(".difficulty");
+
+    // toggle game difficulty
+    const toggleGameDifficulty = (eventTarget) => {
+        if (gameDifficulty === "Easy" && eventTarget.target.textContent === "Hard") {
+            gameDifficulty = "Hard";
+            eventTarget.target.classList.add("selected-difficulty");
+            eventTarget.target.previousElementSibling.classList.remove("selected-difficulty");
+        }
+        if (gameDifficulty === "Hard" && eventTarget.target.textContent === "Easy") {
+            gameDifficulty = "Easy";
+            eventTarget.target.classList.add("selected-difficulty");
+            eventTarget.target.nextElementSibling.classList.remove("selected-difficulty");
+        }
+    }
+
+    // return gameDifficulty
+    const getGameDifficulty = () => {
+        return gameDifficulty;
+    }
+
+    // add eventlisteners to the difficulties so that they toggle
+    difficultyDisplay.forEach((element) => {
+        element.addEventListener("click", toggleGameDifficulty)
+    })
+
     // declaring the gamemode so that these can be changed. 
     let gamemode = "pvp";
 
@@ -73,13 +67,22 @@ const gameLogic =(() => {
             gamemode = "pvp"; // sets the gamemode to match the DOM selection
             eventTarget.target.classList = "gamemode selected"; // adds the "seleected" class to the gamemode currently selected
             eventTarget.target.nextElementSibling.classList = "gamemode"; // removes the "selected" class from the gamemode no longer selected
+            difficultyDisplay.forEach((element) => {
+                element.style.display = "none";
+            })
         }
         if (eventTarget.target.textContent === "Player vs. Computer" && gamemode === "pvp") {
             gamemode = "pvc";
             eventTarget.target.classList = "gamemode selected";
             eventTarget.target.previousElementSibling.classList = "gamemode";
+            difficultyDisplay.forEach((element) => {
+                element.style.display = "block";
+                if (element.textContent === gameDifficulty) element.classList.add("selected-difficulty");
+            })  
         } 
     }
+
+
 
     let gameStatus = true;
 
@@ -133,6 +136,63 @@ const gameLogic =(() => {
         }
     }
 
+    // I have yet to fully understand what it is doing here. 
+    const minmaxEvaluate = (field) => {
+        let winner = checkForWinner(field);
+        return winner === "X" ? -1000 : winner === "O" ? 1000 : 0;
+    }
+
+    const minmax = (board, depth, isMax) => {
+        if (depth === 0) return 0;
+        let score = minmaxEvaluate(board);
+        if (score === 1000) return score;
+        if (score === -1000) return score;
+
+
+        if (isMax) {
+            let maxEval = -1000;
+
+            for (let i = 0; i < board.length; i++) {
+                if (!board[i]) {
+                    board[i] = "O";
+                    maxEval = Math.max(maxEval, minmax(board, depth - 1, false));
+                    board[i] = undefined;
+                }
+            }
+            return maxEval;
+        } else {
+            let minEval = 1000;
+
+            for (let i = 0; i < board.length; i++) {
+                if (!board[i]) {
+                    board[i] = "X";
+                    minEval = Math.min(minEval, minmax(board, depth - 1, true));
+                    board[i] = undefined;
+                }
+            }
+            return minEval;
+        }
+    }
+
+    const findBestMove = (field) => {
+        let bestVal = -1000;
+        let moveIndex = -1;
+
+        for (let i = 0; i < field.length; i++) {
+            if (!field[i]) {
+                field[i] = "O";
+                let moveVal = minmax(field, (8 - getCurrentRound()), false);
+                field[i] = undefined;
+
+                if (moveVal > bestVal) {
+                    moveIndex = i;
+                    bestVal = moveVal;
+                }
+            }
+        }
+        return moveIndex;
+    }
+
     return {
         getCurrentRound,
         nextRound,
@@ -143,7 +203,9 @@ const gameLogic =(() => {
         getGamemode,
         checkForWinner,
         endGame,
-        resetGameStatus
+        resetGameStatus,
+        findBestMove,
+        getGameDifficulty
     }
 })();
 
@@ -183,16 +245,20 @@ const gameboard = (() => {
         return field[index];
     }
 
-    // return a list of indexes from the current field 
-    const getCurrentEmptyCells = (field) => {
-        let array = [];
-        field.forEach((item, index) => {
-            array.push(item, index);
-        });
-        return array;
+    // return a list of indexes from the current field - I wanted to use this to produce a random index from the list of empty fields
+    const getIndexesOfEmptyCells = () => {
+        let indexArray = []; // there must be an easier way than creating a temporary variable and pushing to it
+        for (index = 0; index < field.length; index++) {
+            if (!field[index]) indexArray.push(index);
+        }
+        return indexArray;
     }
 
-    console.log(getCurrentEmptyCells(field));
+    // this can be combined with the function above to pull a random index from an array of empty indexes. 
+    const getRandomIndex = array => {
+        // return a random item from an array
+        return array[Math.floor(Math.random() * array.length)];
+    }
 
     // set the message at the top of the board
     const message = document.querySelector(".message"); // grab the message element on the dom
@@ -227,13 +293,23 @@ const gameboard = (() => {
         setMessage(getMessage());
     }
 
+    // computers move
+    const computersMove = () => {
+        if (gameLogic.getGameDifficulty() === "Hard") {
+            placeMarker(gameLogic.findBestMove(field), gameLogic.getCurrentMarker());
+            renderField(); // renders the field with all of the new markers present.
+        } else {
+            placeMarker(getRandomIndex(getIndexesOfEmptyCells()), gameLogic.getCurrentMarker());
+            renderField(); // renders the field with all of the new markers present.
+        }
+    }
+
     // add event listener to a cell in the field on the Dom
     fieldInDom.forEach((cell) => {
         cell.addEventListener("click", (e) => {
             placeMarker(e.target.dataset.index, gameLogic.getCurrentMarker()); // places a marker in the field at a certain index.
             renderField(); // renders the field with all of the new markers present.
-            if (gameLogic.getGamemode() === "pvc") setTimeout(placeMarker(0, gameLogic.getCurrentMarker()), 1000);
-            renderField(); // renders the field with all of the new markers present.
+            if (gameLogic.getGamemode() === "pvc") setTimeout(computersMove, 1000);
         });
     });
 
