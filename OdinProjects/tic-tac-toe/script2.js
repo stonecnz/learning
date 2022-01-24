@@ -285,7 +285,7 @@ const gameboard = (() => {
     const resetButton = document.querySelector(".reset"); // grab the dom element
     resetButton.addEventListener("click", resetGame);
     resetButton.addEventListener("mousedown", (e) => {
-        e.target.classList.add("active", {duration:500})
+        e.target.classList.add("active");
     })
     resetButton.addEventListener("mouseup", (e) => {
         e.target.classList.remove("active");
