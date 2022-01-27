@@ -47,9 +47,26 @@
 }
 
 .difficulty {
+    position: relative;
     padding: 0 5px;
     display: none;
     margin: auto 3px;
+    border-bottom: none;
+}
+
+.difficulty::after {
+    position: absolute;
+    content: "";
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 1px;
+    background-color: black;
+    transition: 500ms linear;
+}
+
+.difficulty:hover::after {
+    width: 100%;
 }
 
 .difficulty:hover {
@@ -57,7 +74,7 @@
 }
 
 .selected-difficulty {
-    outline: 1px solid black;
+    border-bottom: 1px solid black;
 }
 
 .message {

@@ -298,7 +298,6 @@ const gameboard = (() => {
         if (checkForEmptyCells() && gameLogic.getGameStatus()) gameLogic.nextRound();
         setMessage(getMessage());
     }
-
     // computers move
     const computersMove = () => {
         if (gameLogic.getGameDifficulty() === "Hard") {
