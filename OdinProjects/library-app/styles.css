@@ -1,92 +1,92 @@
 * {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 body {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    width: 800px;
-    margin: auto;
-    padding-left: 30px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 800px;
+  margin: auto;
+  padding-left: 30px;
 }
 
 header {
-    width: 95%;
-    height: 20%;
+  width: 95%;
+  height: 20%;
 }
 
 main {
-    width: 95%;
-    height: 75%;
+  width: 95%;
+  height: 75%;
 }
 
 header h1 {
-    margin: 10% 0;
-    font-size: 3rem;
+  margin: 10% 0;
+  font-size: 3rem;
 }
 
 .new-book-form {
-    display: flex;
-    flex-wrap: wrap;
-    font-size: 1.5rem;
-    justify-content: space-between;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 1.5rem;
+  justify-content: space-between;
 }
 
 #new-book-submit {
-    font-size: 2rem;
-    margin: 5% 0;
-    padding: 5px;
-    border: 2px solid #E8E8E8;
-    border-radius: 5px;
-    text-align: center;
+  font-size: 2rem;
+  margin: 5% 0;
+  padding: 5px;
+  border: 2px solid #e8e8e8;
+  border-radius: 5px;
+  text-align: center;
 }
 
 #new-book-submit:hover {
-    cursor: pointer;
-    background-color: #DADADA;
-    border: 2px solid #DADADA;
+  cursor: pointer;
+  background-color: #dadada;
+  border: 2px solid #dadada;
 }
 
 .input {
-    margin-bottom: 2%
+  margin-bottom: 2%;
 }
 
 .input-item {
-    display: flex;
+  display: flex;
 }
 
 .library-table {
-    width: 100%;
-    text-align: left;
+  width: 100%;
+  text-align: left;
 }
 
 .title {
-    width: 30%;
+  width: 30%;
 }
 
 .author {
-    width: 25%;
+  width: 25%;
 }
 
 .pages {
-    width: 15%;
+  width: 15%;
 }
 
 .header-row {
-    border-bottom: 1px solid #DADADA;
+  border-bottom: 1px solid #dadada;
 }
 
 .table-row {
-    padding-top: 10px;
-    border-bottom: 1px solid #DADADA;
+  padding-top: 10px;
+  border-bottom: 1px solid #dadada;
 }
 
 .delete-btn {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .delete-btn:hover {
-    font-weight: 600;
+  font-weight: 600;
 }
