@@ -1,0 +1,84 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: initial;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    padding: 30px;
+    font-size: 4rem;
+}
+
+.instruction-container {
+    width: 55vw;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.btn {
+    border: .4rem solid black;
+    border-radius: .5rem;
+    margin: 1rem;
+    font-size: 1.5rem;
+    padding: 1rem .5rem;
+    transition: all .07s ease;
+    width: 10rem;
+    text-align: center;
+    color: white;
+    background: rgba(0,0,0,0.4);
+    text-shadow: 0 0 .5rem black;
+}
+
+.playing {
+    transform: scale(1.1);
+    border-color: #ffc600;
+    box-shadow: 0 0 1rem #ffc600;
+}
+
+.restart {
+    display: none;
+}
+
+.comp-move-container {
+    display: none;
+}
+
+.round-container {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.current-round {
+    font-size: 80px;
+    padding: 30px;
+    margin-bottom: 20px;
+}
+
+.game-container {
+    display: none;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.game {
+    font-size: 1.5rem;
+}
