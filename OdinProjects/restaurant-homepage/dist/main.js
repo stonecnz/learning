@@ -1,1 +1,1 @@
-console.log("Everything is working?");
+(()=>{"use strict";const n=n=>document.createElement(n),e=n=>{n.href="#"};document.body.appendChild((()=>{const d=n("nav"),p=n("ul"),i=n("li"),a=n("li"),l=n("li"),t=n("a"),h=n("a"),C=n("a");return e(t),e(h),e(C),t.innerHTML="Home",h.innerHTML="Menu",C.innerHTML="Contact",i.appendChild(t),a.appendChild(h),l.appendChild(C),p.appendChild(i),p.appendChild(a),p.appendChild(l),d.appendChild(p),d})())})();
