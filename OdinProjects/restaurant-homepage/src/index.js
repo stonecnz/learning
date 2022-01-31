@@ -1,3 +1,5 @@
 import navComponent from "./navComponent.js";
+import "./style.css";
 
-document.body.appendChild(navComponent());
+const container = document.querySelector(".container");
+container.appendChild(navComponent());

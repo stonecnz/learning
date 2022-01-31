@@ -1,0 +1,50 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+.container {
+  width: 50%;
+  margin: auto;
+}
+
+nav {
+  float: right;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav li {
+  display: inline-block;
+  margin-left: 2em;
+  padding-top: 1em;
+  position: relative;
+}
+
+nav a {
+  color: #444;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+nav a:hover {
+  color: black;
+}
+
+nav a::after {
+  content: "";
+  display: block;
+  height: 0.1em;
+  width: 0%;
+  background-color: #444;
+  position: absolute;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
