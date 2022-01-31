@@ -5,8 +5,24 @@
 }
 
 .container {
-  width: 50%;
-  margin: auto;
+  width: 800px;
+  margin: 0 auto;
+}
+
+header {
+  padding: 1em 0;
+  background-color: rgb(238, 237, 237);
+}
+
+header::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.nav-icon {
+  float: left;
+  height: 7em;
 }
 
 nav {
@@ -21,8 +37,8 @@ nav ul {
 
 nav li {
   display: inline-block;
-  margin-left: 2em;
-  padding-top: 1em;
+  margin-left: 5em;
+  padding-top: 2em;
   position: relative;
 }
 
@@ -30,6 +46,7 @@ nav a {
   color: #444;
   text-decoration: none;
   text-transform: uppercase;
+  font-size: 2em;
 }
 
 nav a:hover {
