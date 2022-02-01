@@ -6,15 +6,17 @@
 
 body {
   margin: 0;
+  width: 100vw;
 }
 
-.container {
-  width: 800px;
+.nav-container {
+  width: 70rem;
   margin: 0 auto;
+  padding: 0 3rem;
 }
 
 header {
-  padding: 1em 0;
+  padding: 1rem 0;
   background-color: rgb(238, 237, 237);
 }
 
@@ -41,23 +43,21 @@ nav ul {
 
 nav li {
   display: inline-block;
-  margin-left: 5em;
-  padding-top: 2em;
+  margin-left: 5rem;
+  padding-top: 2rem;
   position: relative;
-}
-
-nav a {
   color: #444;
   text-decoration: none;
   text-transform: uppercase;
   font-size: 2em;
+  cursor: pointer;
 }
 
-nav a:hover {
+nav li:hover {
   color: black;
 }
 
-nav a::after {
+nav li::after {
   content: "";
   display: block;
   height: 0.1em;
@@ -66,6 +66,53 @@ nav a::after {
   position: absolute;
 }
 
-nav a:hover::after {
+nav li:hover::after {
   width: 100%;
+}
+
+main {
+  width: 70rem;
+  margin: 0 auto;
+  padding: 1rem 3rem;
+}
+
+main h1 {
+  font-size: 6rem;
+  text-align: center;
+  text-decoration: underline;
+}
+
+main p {
+  font-size: 3rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.menu-item {
+  border-bottom: 0.2rem solid #999;
+}
+
+.menu-items div:last-child {
+  border-bottom: none;
+}
+
+.menu-item p:first-child {
+  font-size: 4rem;
+}
+
+.location-img {
+  height: 13rem;
+  margin-top: 5rem;
+}
+.contacts-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.details-container p {
+  text-align: right;
+}
+
+.details-container p:first-child {
+  font-size: 4rem;
 }
